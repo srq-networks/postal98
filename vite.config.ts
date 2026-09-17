@@ -9,6 +9,6 @@ const apiProxy = { '/api': `http://localhost:${process.env.API_PORT ?? 8787}` }
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: { host: true, proxy: apiProxy },
+  server: { host: true, proxy: apiProxy, allowedHosts: ['nebula.tail2fc318.ts.net'] },
   preview: { host: true, proxy: apiProxy },
 })

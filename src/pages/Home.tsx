@@ -1,10 +1,12 @@
 import { Button } from '../components/Button'
+import { FeaturedCard } from '../components/FeaturedCard'
 import { Gallery } from '../components/Gallery'
 import { Hero } from '../components/Hero'
 import { OurInfo } from '../components/OurInfo'
 import { Stripe } from '../components/Stripe'
 import { WeeklySpecials } from '../components/WeeklySpecials'
-import { homeOtherItems, homeSpecialtyColumns } from '../data/galleries'
+import { homeOtherItems } from '../data/galleries'
+import { featuredItems } from '../data/menu'
 import { site, uploads } from '../data/site'
 import { bgUrl, fullUrl, rawUrl } from '../lib/assets'
 
@@ -86,19 +88,28 @@ export function Home() {
         <Stripe title="Specialties" className="!py-0 !mt-[8px]" />
       </section>
 
-      {/* Specialties galleries */}
-      <section className="section bg-black !pt-[1px] !pr-[1px] !pb-[4px] !pl-0">
-        <div className="row row-full row-gutters2 row-4col !max-w-[1310px] !pt-[30px] !pb-[3px] min-h-[444px]">
-          {homeSpecialtyColumns.map((galleries, c) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: static column layout
-            <div className="col col-1_4" key={c}>
-              {galleries.map((g) => (
-                <div className="mod" key={g.images[0]}>
-                  <Gallery images={g.images} visible={1} />
-                </div>
-              ))}
-            </div>
-          ))}
+      {/* House Specialties */}
+      <section className="section chalkboard !pt-[1px] !pb-[64px]">
+        <div className="row !w-[90%] !max-w-[1180px] !pt-[40px] !pb-0">
+          <div className="txt mx-auto mb-[32px] max-w-[640px] text-center font-cairo font-semibold text-[16px] leading-[1.8em] text-white/70">
+            <h4 className="font-cairo font-bold uppercase text-brand-yellow tracking-[4px] leading-[1.6em] text-[14px]">
+              House Favorites
+            </h4>
+            <p>
+              The plates and cups our regulars keep coming back for, made fresh to order every day.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-[28px] min-[480px]:grid-cols-2 lg:grid-cols-3">
+            {featuredItems().map((item) => (
+              <FeaturedCard key={item.id} item={item} />
+            ))}
+          </div>
+          <div className="mt-[44px] flex flex-wrap justify-center gap-x-[20px] gap-y-[6px]">
+            <Button to="/menu">View Full Menu</Button>
+            <Button href={site.links.orderOnline} external variant="outline">
+              Order Online
+            </Button>
+          </div>
         </div>
       </section>
 

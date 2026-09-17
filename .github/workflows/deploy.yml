@@ -1,0 +1,51 @@
+# Builds the site and deploys dist/ to the cPanel server on every push to main.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   FTP_HOST       server hostname or IP
+#   FTP_USERNAME   dedicated deploy FTP account scoped to the site's document root
+#   FTP_PASSWORD   that account's password
+#
+# The Resend key is NOT needed here: it lives only on the server, in the
+# environment of the contact API process (see server/README.md). Nothing in
+# the repo or the build output ever contains it.
+#
+# The action keeps a .ftp-deploy-sync-state.json file on the server to upload
+# only changed files on later deploys — leave it in place.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint and typecheck
+        run: bun run lint && bun run typecheck
+
+      - name: Build
+        run: bun run build
+
+      - name: Deploy over FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: dist/
+          server-dir: ./

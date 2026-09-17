@@ -1,50 +1,620 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Open+Sans:wght@400;500;600;700&family=Varela+Round&family=Vast+Shadow&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Outside";
+  font-display: swap;
+  src: url("/assets/raw/outside.ttf") format("truetype");
+}
+
+@theme {
+  --color-brand-red: #9b000e;
+  --color-brand-red-hover: #9a000e;
+  --color-brand-yellow: #e0d61d;
+  --color-ink: #333333;
+  --color-muted: #666666;
+  --color-footer: #222222;
+  --color-card: #f5f5f5;
+
+  --font-outside: "Outside", Helvetica, Arial, Lucida, sans-serif;
+  --font-cairo: "Cairo", Helvetica, Arial, Lucida, sans-serif;
+  --font-vast: "Vast Shadow", display;
+  --font-open: "Open Sans", Arial, sans-serif;
+  --font-varela: "Varela Round", Helvetica, Arial, Lucida, sans-serif;
+
+  /* Divi breakpoints: phone < 768, tablet < 981, desktop >= 981 */
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 981px;
+}
+
+/* ---------- Divi base ---------- */
 @layer base {
-  :root {
-    @apply text-[rgba(255,255,255,0.87)] bg-[#242424] font-sans;
-  }
-
   body {
-    @apply grid place-items-center min-w-[320px] min-h-screen relative m-0;
+    font-family: var(--font-open);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7em;
+    color: var(--color-muted);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-ink);
+    padding-bottom: 10px;
+    line-height: 1em;
+    font-weight: 500;
+  }
+  h1 {
+    font-size: 30px;
+  }
+  h2 {
+    font-size: 26px;
+  }
+  h3 {
+    font-size: 22px;
+  }
+  h4 {
+    font-size: 18px;
+  }
+  h5 {
+    font-size: 16px;
+  }
+  h6 {
+    font-size: 14px;
+  }
+  p {
+    padding-bottom: 1em;
+  }
+  p:last-of-type {
+    padding-bottom: 0;
+  }
+  a {
+    color: var(--color-brand-yellow);
+    text-decoration: none;
+  }
+  strong {
+    font-weight: 700;
+  }
+  em {
+    font-style: italic;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
   }
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.05;
-  background: url("./logo.svg");
-  background-size: 256px;
-  transform: rotate(-12deg) scale(1.35);
-  animation: slide 30s linear infinite;
-  pointer-events: none;
-}
+/* ---------- Divi layout primitives (gutters 3) ---------- */
+@layer components {
+  .section {
+    padding: 54px 0;
+    position: relative;
+  }
+  .row {
+    width: 80%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 27px 0;
+    position: relative;
+  }
+  .row::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .row-full {
+    width: 100%;
+    max-width: 100%;
+  }
+  .col {
+    float: left;
+    position: relative;
+    z-index: 1;
+    min-height: 1px;
+    margin-right: 5.5%;
+  }
+  .col:last-child {
+    margin-right: 0;
+  }
+  .col-4_4 {
+    width: 100%;
+  }
+  .col-1_2 {
+    width: 47.25%;
+  }
+  .col-1_3 {
+    width: 29.6667%;
+  }
+  .col-1_4 {
+    width: 20.875%;
+  }
+  /* module bottom spacing, per column width */
+  .col-4_4 > .mod {
+    margin-bottom: 2.75%;
+  }
+  .col-1_2 > .mod {
+    margin-bottom: 5.82%;
+  }
+  .col-1_3 > .mod {
+    margin-bottom: 9.27%;
+  }
+  .col-1_4 > .mod {
+    margin-bottom: 13.174%;
+  }
+  .col > .mod:last-child {
+    margin-bottom: 0;
+  }
+  /* Divi gutter width 2 (used by the home Specialties row) */
+  .row-gutters2 > .col {
+    margin-right: 3%;
+  }
+  .row-gutters2 > .col:last-child {
+    margin-right: 0;
+  }
+  .row-gutters2 > .col-1_2 {
+    width: 48.5%;
+  }
+  .row-gutters2 > .col-1_4 {
+    width: 22.75%;
+  }
+  .row-gutters2 > .col-1_4 > .mod {
+    margin-bottom: 6.594%;
+  }
+  .row-gutters2 > .col-1_2 > .mod {
+    margin-bottom: 3.093%;
+  }
+  @media (max-width: 980px) {
+    .section {
+      padding: 50px 0;
+    }
+    .row {
+      padding: 30px 0;
+    }
+    .col {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 30px;
+    }
+    .col:last-child {
+      margin-bottom: 0;
+    }
+    .col > .mod {
+      margin-bottom: 30px;
+    }
+    .col > .mod:last-child {
+      margin-bottom: 0;
+    }
+    .col-empty {
+      display: none;
+    }
+    /* Divi keeps quarter columns two-up on tablet (et_pb_row_4col / 1-2_1-4_1-4) */
+    .row-4col {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .row-4col > .col-1_4,
+    .row-1-2_1-4_1-4 > .col-1_4 {
+      width: 47.25%;
+      margin-right: 5.5%;
+    }
+    .row-4col > .col-1_4:nth-child(2n),
+    .row-1-2_1-4_1-4 > .col-1_2,
+    .row-1-2_1-4_1-4 > .col-1_4:nth-child(odd) {
+      margin-right: 0;
+    }
+    .row-4col > .col:nth-last-child(-n + 2),
+    .row-1-2_1-4_1-4 > .col:nth-last-child(-n + 2) {
+      margin-bottom: 0;
+    }
+  }
+  @media (max-width: 479px) {
+    .row > .col,
+    .row-4col > .col-1_4,
+    .row-1-2_1-4_1-4 > .col-1_4 {
+      width: 100%;
+    }
+  }
 
-@keyframes slide {
-  from {
-    background-position: 0 0;
+  /* ---------- Button (Divi .et_pb_button) ---------- */
+  .btn {
+    display: inline-block;
+    position: relative;
+    font-family: var(--font-cairo);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.7em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: var(--color-brand-red);
+    border: 10px solid transparent;
+    border-radius: 0;
+    padding: 0.3em 1em;
+    cursor: pointer;
+    transition: all 300ms ease 0ms;
   }
-  to {
-    background-position: 256px 224px;
+  .btn:hover {
+    background-color: var(--color-brand-red-hover);
+    padding: 0.3em 2em 0.3em 0.7em;
   }
-}
+  .btn::after {
+    content: "\2192";
+    font-family: var(--font-open);
+    font-weight: 400;
+    font-size: 1.6em;
+    line-height: 1em;
+    opacity: 0;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: -1em;
+    transition: all 300ms ease 0ms;
+    text-transform: none;
+  }
+  .btn:hover::after {
+    opacity: 1;
+    margin-left: 0;
+  }
+  .btn-outline {
+    border: 1px solid #fff;
+    font-weight: 600;
+  }
+  .btn-outline::after {
+    color: #000;
+    font-size: inherit;
+  }
+  .btn-black {
+    background-color: #000;
+  }
 
-@keyframes spin {
-  from {
-    transform: rotate(0);
+  /* ---------- Diagonal stripe band ---------- */
+  .stripe {
+    background-image: url("/assets/raw/butcher-image-11-2.png");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto;
   }
-  to {
-    transform: rotate(360deg);
+  .stripe-dark {
+    background-image: url("/assets/raw/butcher-image-11.png");
   }
-}
 
-@media (prefers-reduced-motion) {
-  *,
-  ::before,
-  ::after {
-    animation: none !important;
+  /* Section heading sitting on a stripe band */
+  .title-band {
+    max-width: 600px;
+    margin: -9px auto 0;
+    background: #fff;
+    text-align: center;
+  }
+  .title-band h1 {
+    font-family: var(--font-outside);
+    font-size: 80px;
+  }
+  .title-band-dark {
+    background: #000;
+  }
+  .title-band-dark h1 {
+    color: #fff;
+  }
+  @media (max-width: 767px) {
+    .title-band {
+      max-width: 70%;
+    }
+    .title-band h1 {
+      font-size: 65px;
+    }
+  }
+
+  /* ---------- Hero (Divi section with radial overlay) ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background-image:
+      radial-gradient(circle at bottom right, rgba(0, 0, 0, var(--hero-alpha, 0.5)) 30%, #000 100%),
+      var(--hero-img);
+    background-size: cover;
+    background-position: var(--hero-pos, center);
+    background-blend-mode: var(--hero-blend, normal);
+    padding: var(--hero-pt, 10vw) 0 var(--hero-pb, 10vw);
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero > .row {
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto -0.8em;
+    font-family: var(--font-cairo);
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 1.5em;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0.36em -0.08em 0.84em #000;
+  }
+  .hero-title {
+    position: relative;
+    z-index: 0;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.18);
+    border-width: 2px 0;
+    padding: 3vw 0 2.5vw;
+    text-shadow: 0 0 0.3em rgba(0, 0, 0, 0.4);
+  }
+  .hero-title h1 {
+    font-family: var(--font-outside);
+    font-size: var(--hero-h1, 84px);
+    letter-spacing: 3px;
+    line-height: 1.5em;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0.3em 1em #000;
+    padding-bottom: 10px;
+  }
+  .hero-sub {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: -0.8em auto 0;
+    padding-left: 30px;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: var(--hero-sub, 16px);
+    line-height: 1.5em;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0.36em -0.08em 0.84em #000;
+    transform: translateX(-13px);
+  }
+  @media (max-width: 980px) {
+    .hero {
+      padding: 100px 0;
+    }
+    .hero-eyebrow {
+      font-size: 20px;
+    }
+    .hero-title {
+      padding: 20px 0 10px;
+    }
+    .hero-title h1 {
+      font-size: 45px;
+    }
+    .hero-sub {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 767px) {
+    .hero {
+      padding: 60px 0;
+    }
+    .hero-eyebrow {
+      font-size: 14px;
+    }
+    .hero-title h1 {
+      font-size: 35px;
+    }
+    .hero-sub {
+      font-size: 12px;
+    }
+  }
+
+  /* ---------- Gallery (Divi grid gallery + overlay) ---------- */
+  .gallery-item {
+    position: relative;
+    display: block;
+    border: 2px solid #fff;
+    overflow: hidden;
+  }
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .gallery-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e5e5e5;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+  .gallery-item .overlay::before {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-open);
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--color-brand-yellow);
+    transition: all 0.4s;
+  }
+  .gallery-item:hover .overlay {
+    opacity: 1;
+  }
+  .gallery-grid4 {
+    display: flex;
+    flex-wrap: wrap;
+    /* Divi floats the items, so the last row's bottom margin doesn't add height */
+    margin-bottom: -5.5%;
+  }
+  .gallery-grid4 > * {
+    width: 20.875%;
+    margin-right: 5.5%;
+    margin-bottom: 5.5%;
+  }
+  .gallery-grid4 > :nth-child(4n) {
+    margin-right: 0;
+  }
+  @media (max-width: 980px) {
+    .gallery-grid4 > * {
+      width: 47.25%;
+    }
+    .gallery-grid4 > :nth-child(4n) {
+      margin-right: 5.5%;
+    }
+    .gallery-grid4 > :nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+  /* Divi keeps the bottom margin on every grid item, including the last one,
+     and the floated items keep it inside the module box */
+  .gallery-stack {
+    display: flow-root;
+  }
+  /* Divi's grid-item bottom margin is the row gutter (3% / 5.5%) of the ROW
+     width, expressed here against the column width instead */
+  .gallery-stack > * {
+    margin-bottom: 13.187%;
+  }
+  .col-1_3 .gallery-stack > * {
+    margin-bottom: 18.54%;
+  }
+  .gallery-static {
+    pointer-events: none;
+  }
+  /* Divi grid items: 3-up on tablet, 2-up on phone, 1-up under 480px */
+  @media (max-width: 980px) {
+    .gallery-stack,
+    .gallery-grid4 {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    .gallery-stack > *,
+    .gallery-grid4 > *,
+    .col-1_3 .gallery-stack > * {
+      width: 29.666%;
+      margin: 0 5.5% 7.5% 0;
+    }
+    .gallery-stack > :nth-child(3n),
+    .gallery-grid4 > :nth-child(3n),
+    .gallery-grid4 > :nth-child(4n) {
+      margin-right: 0;
+    }
+    .gallery-grid4 > :nth-child(4n):not(:nth-child(3n)) {
+      margin-right: 5.5%;
+    }
+  }
+  @media (max-width: 767px) {
+    .gallery-stack > *,
+    .gallery-grid4 > *,
+    .col-1_3 .gallery-stack > * {
+      width: 47.25%;
+      margin: 0 5.5% 9.5% 0;
+    }
+    .gallery-stack > :nth-child(3n),
+    .gallery-grid4 > :nth-child(3n) {
+      margin-right: 5.5%;
+    }
+    .gallery-stack > :nth-child(2n),
+    .gallery-grid4 > :nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 479px) {
+    .gallery-stack > *,
+    .gallery-grid4 > *,
+    .col-1_3 .gallery-stack > * {
+      width: 100%;
+      margin: 0 0 11.5%;
+    }
+  }
+
+  /* ---------- Testimonial (Divi) ---------- */
+  .testimonial {
+    position: relative;
+    background: var(--color-card);
+    padding: 30px;
+  }
+  .testimonial::before {
+    content: "";
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    border-radius: 31px;
+    background:
+      var(--color-card)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='%239a000e'%3E%3Cpath d='M14 8v7.5c0 4.5-2.4 7.4-6.9 8.5l-.9-1.9c2.3-.8 3.6-2.4 3.9-4.6H7V8h7zm11 0v7.5c0 4.5-2.4 7.4-6.9 8.5l-.9-1.9c2.3-.8 3.6-2.4 3.9-4.6H18V8h7z'/%3E%3C/svg%3E")
+      center / 20px no-repeat;
+  }
+  .testimonial h4 {
+    font-family: var(--font-open);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1em;
+    color: var(--color-ink);
+  }
+  .testimonial-author {
+    display: block;
+    margin-top: 32px;
+    font-weight: 700;
+  }
+
+  /* ---------- Contact form (Divi) ---------- */
+  .field {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid #fff;
+    border-radius: 0;
+    color: #fff;
+    font-family: var(--font-cairo);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 2em;
+    outline: none;
+  }
+  .field::placeholder {
+    color: #fff;
+    opacity: 1;
+  }
+  /* on white (employment application) */
+  .field-light {
+    padding: 10px 0;
+    line-height: 1.6em;
+    color: var(--color-ink);
+    border-bottom-color: rgba(0, 0, 0, 0.25);
+  }
+  .field-light::placeholder {
+    color: #999;
+  }
+  .field-light:focus {
+    border-bottom-color: var(--color-brand-red);
+  }
+  textarea.field-light {
+    min-height: 90px;
+  }
+  .field-error {
+    border: 1px solid red;
+  }
+  textarea.field {
+    min-height: 150px;
+    resize: vertical;
   }
 }

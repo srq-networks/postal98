@@ -1,32 +1,65 @@
-import { APITester } from "./APITester";
-import "./index.css";
+import { useEffect, useRef } from 'react'
+import { Route, Routes, useLocation } from 'react-router'
+import { Footer } from './components/Footer'
+import { Header } from './components/Header'
+import { Apply } from './pages/Apply'
+import { Contact } from './pages/Contact'
+import { Home } from './pages/Home'
+import { Menu } from './pages/Menu'
+import { OurStory } from './pages/OurStory'
 
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
-
-export function App() {
-  return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <div className="flex justify-center items-center gap-8 mb-8">
-        <img
-          src={logo}
-          alt="Bun Logo"
-          className="h-24 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] scale-120"
-        />
-        <img
-          src={reactLogo}
-          alt="React Logo"
-          className="h-24 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#61dafbaa] animate-[spin_20s_linear_infinite]"
-        />
-      </div>
-
-      <h1 className="text-5xl font-bold my-4 leading-tight">Bun + React</h1>
-      <p>
-        Edit <code className="bg-[#1a1a1a] px-2 py-1 rounded font-mono">src/App.tsx</code> and save to test HMR
-      </p>
-      <APITester />
-    </div>
-  );
+const BASE_TITLE = 'Postal 98 Cafe'
+const titles: Record<string, string> = {
+  '/': 'Postal 98 Cafe | A Coffee / Tea / Pastries Shop in Pinecraft Sarasota, FL',
+  '/menu': `Menu | ${BASE_TITLE}`,
+  '/our-story': `Our Story | ${BASE_TITLE}`,
+  '/contact': `Contact | ${BASE_TITLE}`,
+  '/apply': `Employment Application | ${BASE_TITLE}`,
 }
 
-export default App;
+/** Scroll to top on route change, or to the hash target (offset for the fixed header). */
+function useScrollRestoration() {
+  const { pathname, hash } = useLocation()
+  const firstRender = useRef(true)
+  useEffect(() => {
+    // jump instantly when the page is opened with a hash, animate for in-page clicks
+    const behavior: ScrollBehavior = firstRender.current ? 'auto' : 'smooth'
+    firstRender.current = false
+    document.title = titles[pathname] ?? BASE_TITLE
+    if (!hash) {
+      window.scrollTo(0, 0)
+      return
+    }
+    const el = document.getElementById(hash.slice(1))
+    if (!el) return
+    const jump = () => {
+      const header = document.querySelector('header')
+      const offset = header ? header.getBoundingClientRect().height : 0
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior })
+    }
+    jump()
+    // fonts and the hero video can still shift layout on a fresh load; re-align once they settle
+    const t = window.setTimeout(jump, 400)
+    return () => window.clearTimeout(t)
+  }, [pathname, hash])
+}
+
+export default function App() {
+  useScrollRestoration()
+  return (
+    <div className="pt-[80px] lg:pt-[110px]">
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/our-story" element={<OurStory />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/apply" element={<Apply />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  )
+}

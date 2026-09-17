@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import { site, uploads } from '../data/site'
-import { rawUrl } from '../lib/assets'
+import { Link } from 'react-router'
+import { site } from '../data/site'
 import { Button } from './Button'
 import { Stripe } from './Stripe'
 
@@ -91,13 +91,10 @@ export function OurInfo() {
           </div>
           <div className={`mod ${infoText} !leading-[0.8em] tracking-[1px]`}>
             <h4 className="text-white">
-              <strong>Employee Application Form</strong>
+              <strong>
+                <Link to="/apply">Apply Now</Link>
+              </strong>
             </h4>
-            <p>
-              <a href={rawUrl(uploads.employmentPdf)} target="_blank" rel="noopener noreferrer">
-                Click Here
-              </a>
-            </p>
           </div>
         </div>
       </div>

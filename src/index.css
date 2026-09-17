@@ -222,7 +222,10 @@
 
   /* ---------- Button (Divi .et_pb_button) ---------- */
   .btn {
-    display: inline-block;
+    --btn-arrow-size: 1.3em;
+    --btn-arrow-color: currentColor;
+    display: inline-flex;
+    align-items: center;
     position: relative;
     font-family: var(--font-cairo);
     font-size: 14px;
@@ -240,34 +243,29 @@
   }
   .btn:hover {
     background-color: var(--color-brand-red-hover);
-    padding: 0.3em 2em 0.3em 0.7em;
+    padding: 0.3em 2.2em 0.3em 0.7em;
   }
-  .btn::after {
-    content: "\2192";
-    font-family: var(--font-open);
-    font-weight: 400;
-    font-size: 1.6em;
-    line-height: 1em;
-    opacity: 0;
+  /* Arrow sits in the extra right padding that appears on hover, so it never overlaps the label. */
+  .btn-arrow {
     position: absolute;
-    right: 1em;
+    right: 0.6em;
     top: 50%;
-    transform: translateY(-50%);
-    margin-left: -1em;
+    width: var(--btn-arrow-size);
+    height: var(--btn-arrow-size);
+    color: var(--btn-arrow-color);
+    opacity: 0;
+    transform: translate(-0.5em, -50%);
     transition: all 300ms ease 0ms;
-    text-transform: none;
   }
-  .btn:hover::after {
+  .btn:hover .btn-arrow {
     opacity: 1;
-    margin-left: 0;
+    transform: translate(0, -50%);
   }
   .btn-outline {
+    --btn-arrow-size: 1em;
+    --btn-arrow-color: #000;
     border: 1px solid #fff;
     font-weight: 600;
-  }
-  .btn-outline::after {
-    color: #000;
-    font-size: inherit;
   }
   .btn-black {
     background-color: #000;

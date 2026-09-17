@@ -1,8 +1,8 @@
+import { Menu } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import { site, uploads } from '../data/site'
 import { rawUrl } from '../lib/assets'
-import { MenuBarsIcon } from './icons'
 
 const links = [
   { label: 'Home', to: '/' },
@@ -41,7 +41,7 @@ export function Header() {
       }`}
     >
       <div
-        className={`row !py-0 flex items-center justify-between transition-[height] duration-400 ${
+        className={`row !py-0 flex after:hidden items-center justify-between transition-[height] duration-400 ${
           fixed ? 'h-[80px] lg:h-[54px]' : 'h-[80px] lg:h-[110px]'
         }`}
       >
@@ -87,7 +87,7 @@ export function Header() {
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
         >
-          <MenuBarsIcon />
+          <Menu size={32} />
         </button>
       </div>
 

@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 
@@ -27,10 +28,16 @@ export function Button({
   className = '',
 }: Props) {
   const cls = `btn ${variantClass[variant]} ${className}`.trim()
+  const content = (
+    <>
+      {children}
+      <ArrowRight className="btn-arrow" />
+    </>
+  )
   if (to) {
     return (
       <Link to={to} className={cls}>
-        {children}
+        {content}
       </Link>
     )
   }
@@ -42,13 +49,13 @@ export function Button({
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
       >
-        {children}
+        {content}
       </a>
     )
   }
   return (
     <button type={type ?? 'button'} className={cls} disabled={disabled}>
-      {children}
+      {content}
     </button>
   )
 }

@@ -1,35 +1,42 @@
 // Downloads every asset the site uses from postal98cafe.com (once, into
 // assets/raw/) and writes the processed files under public/assets/.
 //
-//   bun run assets
+//   bun run assets            (needs sharp + ffmpeg + cjxl on PATH)
 //
-// Output layout (see src/lib/assets.ts for the matching URL helpers):
-//   public/assets/thumbs/<key>.jpg   400x516 cover crop  (gallery grid)
-//   public/assets/full/<key>.jpg     <=1600px long edge  (lightbox / photos)
-//   public/assets/bg/<key>.<ext>     <=1920px wide       (hero + section backgrounds)
-//   public/assets/raw/<file>         copied as-is        (logo, patterns, pdf, font, icons)
-//   public/assets/raw/<video>.mp4    ffmpeg re-encode    (hero video)
+// Every image is written once per width in KINDS (src/lib/assets.ts) and once
+// per format: <kind>/<key>-<width>.{jxl,avif,webp,jpg}. src/components/Picture.tsx
+// renders the matching <picture>. Non-image files are copied to raw/:
+//   public/assets/raw/<file>         copied as-is  (patterns, pdf, font, icons)
+//   public/assets/raw/<video>.mp4    ffmpeg re-encode (hero video)
 
-import { mkdir, stat } from 'node:fs/promises'
+import { mkdir, stat, unlink } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 import sharp from 'sharp'
-import { allGalleryImages } from '../src/data/galleries'
+import { homeOtherItems } from '../src/data/galleries'
+import { allMenuPhotos } from '../src/data/menu'
 import { uploads } from '../src/data/site'
-import { assetKey, UPLOADS_BASE } from '../src/lib/assets'
+import { assetKey, FORMATS, KINDS, type Kind, UPLOADS_BASE } from '../src/lib/assets'
 
 const RAW_DIR = 'assets/raw'
 const OUT = 'public/assets'
 const UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 
-type Role = 'gallery' | 'photo' | 'bg' | 'copy' | 'video'
+if (!Bun.which('cjxl')) {
+  console.error('cjxl not found on PATH (Arch: pacman -S libjxl) — needed for the JPEG XL variants')
+  process.exit(1)
+}
+
+type Role = Kind | 'copy' | 'video'
 const plan = new Map<string, Role>()
 const add = (role: Role, ...paths: string[]) => {
   for (const p of paths) if (!plan.has(p)) plan.set(p, role)
 }
 
-add('gallery', ...allGalleryImages())
-add('photo', uploads.somethingUnique, uploads.ourStoryPhoto)
+add('thumbs', ...homeOtherItems.images)
+add('cards', ...allMenuPhotos())
+add('full', uploads.somethingUnique, uploads.ourStoryPhoto)
 add(
   'bg',
   uploads.heroPoster,
@@ -40,9 +47,9 @@ add(
   uploads.chalkboard,
   uploads.testimonialsBg,
 )
+add('logo', uploads.logo)
 add(
   'copy',
-  uploads.logo,
   uploads.stripeLight,
   uploads.stripeDark,
   uploads.cornerPattern,
@@ -77,42 +84,60 @@ async function download(uploadPath: string): Promise<string> {
   }
 }
 
+async function run(cmd: string[]) {
+  const proc = Bun.spawn(cmd, { stderr: 'pipe' })
+  if ((await proc.exited) !== 0)
+    throw new Error(`${cmd[0]} failed: ${await new Response(proc.stderr).text()}`)
+}
+
+/** sharp's bundled libvips has no JPEG XL encoder, so go through a temp PNG and cjxl. */
+async function toJxl(img: sharp.Sharp, out: string) {
+  const tmp = join(tmpdir(), `postal98-${process.pid}-${basename(out)}.png`)
+  await img.png().toFile(tmp)
+  try {
+    await run(['cjxl', tmp, out, '-q', '80', '-e', '7', '--quiet'])
+  } finally {
+    await unlink(tmp)
+  }
+}
+
+async function processImage(kind: Kind, raw: string) {
+  const spec = KINDS[kind]
+  const key = assetKey(raw)
+  for (const width of spec.widths) {
+    const outputs = FORMATS.map((f) => [f, `${OUT}/${kind}/${key}-${width}.${f}`] as const)
+    const missing = await Promise.all(outputs.map(async ([f, p]) => ((await exists(p)) ? null : f)))
+    if (missing.every((f) => f === null)) continue
+    const base = sharp(raw).rotate()
+    const img =
+      spec.fit === 'cover'
+        ? base.resize(width, 'height' in spec ? spec.height : Math.round(width * spec.ratio), {
+            fit: 'cover',
+          })
+        : base.resize(width, width, { fit: 'inside', withoutEnlargement: true })
+    for (const [format, out] of outputs) {
+      if (!missing.includes(format)) continue
+      switch (format) {
+        case 'jpg':
+          await img.clone().jpeg({ quality: 82, mozjpeg: true, progressive: true }).toFile(out)
+          break
+        case 'webp':
+          await img.clone().webp({ quality: 80 }).toFile(out)
+          break
+        case 'avif':
+          await img.clone().avif({ quality: 55, effort: 4 }).toFile(out)
+          break
+        case 'jxl':
+          await toJxl(img.clone(), out)
+          break
+      }
+    }
+  }
+}
+
 async function processAsset(uploadPath: string, role: Role, raw: string) {
-  const key = assetKey(uploadPath)
   const file = basename(uploadPath)
-  const jpg = { quality: 82, mozjpeg: true }
   switch (role) {
-    case 'gallery': {
-      const thumb = `${OUT}/thumbs/${key}.jpg`
-      const full = `${OUT}/full/${key}.jpg`
-      if (!(await exists(thumb)))
-        await sharp(raw).rotate().resize(400, 516, { fit: 'cover' }).jpeg(jpg).toFile(thumb)
-      if (!(await exists(full)))
-        await sharp(raw)
-          .rotate()
-          .resize(1600, 1600, { fit: 'inside', withoutEnlargement: true })
-          .jpeg(jpg)
-          .toFile(full)
-      return
-    }
-    case 'photo': {
-      const full = `${OUT}/full/${key}.jpg`
-      if (!(await exists(full)))
-        await sharp(raw)
-          .rotate()
-          .resize(1600, 1600, { fit: 'inside', withoutEnlargement: true })
-          .jpeg(jpg)
-          .toFile(full)
-      return
-    }
-    case 'bg': {
-      const png = file.toLowerCase().endsWith('.png')
-      const out = `${OUT}/bg/${key}.${png ? 'png' : 'jpg'}`
-      if (await exists(out)) return
-      const img = sharp(raw).rotate().resize(1920, undefined, { withoutEnlargement: true })
-      await (png ? img.png({ compressionLevel: 9 }) : img.jpeg(jpg)).toFile(out)
-      return
-    }
     case 'copy': {
       const out = `${OUT}/raw/${file}`
       if (!(await exists(out))) await Bun.write(out, Bun.file(raw))
@@ -121,8 +146,8 @@ async function processAsset(uploadPath: string, role: Role, raw: string) {
     case 'video': {
       const out = `${OUT}/raw/${file}`
       if (await exists(out)) return
-      const proc = Bun.spawn(
-        [
+      try {
+        await run([
           'ffmpeg',
           '-y',
           '-loglevel',
@@ -143,20 +168,20 @@ async function processAsset(uploadPath: string, role: Role, raw: string) {
           '-movflags',
           '+faststart',
           out,
-        ],
-        { stderr: 'pipe' },
-      )
-      if ((await proc.exited) !== 0) {
-        console.warn(`ffmpeg failed for ${file}; copying original`)
+        ])
+      } catch (err) {
+        console.warn(`${(err as Error).message}; copying original`)
         await Bun.write(out, Bun.file(raw))
       }
       return
     }
+    default:
+      return processImage(role, raw)
   }
 }
 
 await Promise.all(
-  ['thumbs', 'full', 'bg', 'raw'].map((d) => mkdir(`${OUT}/${d}`, { recursive: true })),
+  [...Object.keys(KINDS), 'raw'].map((d) => mkdir(`${OUT}/${d}`, { recursive: true })),
 )
 
 const entries = [...plan.entries()]
@@ -175,7 +200,7 @@ const worker = async () => {
     if (done % 20 === 0) console.log(`${done}/${plan.size}`)
   }
 }
-await Promise.all(Array.from({ length: 6 }, worker))
+await Promise.all(Array.from({ length: 4 }, worker))
 
 console.log(`processed ${done - failures.length}/${plan.size} assets`)
 if (failures.length) {

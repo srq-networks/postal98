@@ -3,7 +3,7 @@ import { Hero } from '../components/Hero'
 import { OurInfo } from '../components/OurInfo'
 import { Stripe } from '../components/Stripe'
 import { uploads } from '../data/site'
-import { bgUrl, rawUrl } from '../lib/assets'
+import { rawUrl } from '../lib/assets'
 
 export function Apply() {
   return (
@@ -12,7 +12,7 @@ export function Apply() {
         eyebrow="Work with us"
         title="Apply"
         subline="Employment application"
-        image={bgUrl(uploads.contactHero)}
+        image={uploads.contactHero}
         overlay={0.26}
         sublineSize="15px"
       />

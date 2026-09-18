@@ -8,7 +8,7 @@ import { Stripe } from '../components/Stripe'
 import { WeeklySpecials } from '../components/WeeklySpecials'
 import { type MenuItem, menu } from '../data/menu'
 import { site, uploads } from '../data/site'
-import { bgUrl, rawUrl } from '../lib/assets'
+import { rawUrl } from '../lib/assets'
 
 const offers = (item: MenuItem) =>
   item.price !== undefined
@@ -52,7 +52,7 @@ export function Menu() {
         eyebrow="just for you"
         title="Something Delicious For Everyone"
         subline="Favorite Family Flavors"
-        image={bgUrl(uploads.menuHero)}
+        image={uploads.menuHero}
         padding={['6vw', '6vw']}
         titleSize="75px"
         position="center bottom 0px"

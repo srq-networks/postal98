@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import Lightbox from 'yet-another-react-lightbox'
 import { Hero } from '../components/Hero'
+import { Lightbox } from '../components/Lightbox'
 import { OurInfo } from '../components/OurInfo'
+import { Picture } from '../components/Picture'
 import { Stripe } from '../components/Stripe'
 import { Testimonial } from '../components/Testimonial'
 import { uploads } from '../data/site'
 import { storyParagraphs, testimonialColumns } from '../data/story'
-import { bgUrl, fullUrl } from '../lib/assets'
+import { imageUrl } from '../lib/assets'
 
 export function OurStory() {
   const [open, setOpen] = useState(false)
-  const photo = fullUrl(uploads.ourStoryPhoto)
+  const photo = imageUrl('full', uploads.ourStoryPhoto, 'webp', 1600)
 
   return (
     <>
@@ -18,7 +19,7 @@ export function OurStory() {
         eyebrow="Learn about us"
         title="Post Office to Cafe"
         subline="every cup is made with love"
-        image={bgUrl(uploads.ourStoryHero)}
+        image={uploads.ourStoryHero}
         blend="lighten"
       />
 
@@ -47,10 +48,17 @@ export function OurStory() {
                 }}
                 className="gallery-item !border-0"
               >
-                <img src={photo} alt="" className="w-full" width={2032} height={1354} />
+                <Picture
+                  kind="full"
+                  src={uploads.ourStoryPhoto}
+                  className="w-full"
+                  width={1600}
+                  height={1066}
+                  sizes="(min-width: 981px) 50vw, 100vw"
+                />
                 <span className="overlay" />
               </a>
-              <Lightbox open={open} close={() => setOpen(false)} slides={[{ src: photo }]} />
+              {open && <Lightbox close={() => setOpen(false)} slides={[{ src: photo }]} />}
             </div>
           </div>
           <div className="col col-1_2">
@@ -68,10 +76,8 @@ export function OurStory() {
       </section>
 
       <section className="section !p-0 border-[40px] border-white bg-white">
-        <div
-          className="row row-full row-gutters2 bg-black !mt-[2px] !pt-[5vw] !px-[4vw] !pb-[3vw]"
-          style={{ backgroundImage: `url(${bgUrl(uploads.testimonialsBg)})` }}
-        >
+        <div className="row row-full row-gutters2 relative overflow-hidden bg-black !mt-[2px] !pt-[5vw] !px-[4vw] !pb-[3vw]">
+          <Picture kind="bg" src={uploads.testimonialsBg} sizes="100vw" className="bg-layer" />
           {testimonialColumns.map((column, c) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: static column layout
             <div className="col col-1_2" key={c}>

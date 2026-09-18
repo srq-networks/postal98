@@ -3,12 +3,13 @@ import { FeaturedCard } from '../components/FeaturedCard'
 import { Gallery } from '../components/Gallery'
 import { Hero } from '../components/Hero'
 import { OurInfo } from '../components/OurInfo'
+import { Picture } from '../components/Picture'
 import { Stripe } from '../components/Stripe'
 import { WeeklySpecials } from '../components/WeeklySpecials'
 import { homeOtherItems } from '../data/galleries'
 import { featuredItems } from '../data/menu'
 import { site, uploads } from '../data/site'
-import { bgUrl, fullUrl, rawUrl } from '../lib/assets'
+import { rawUrl } from '../lib/assets'
 
 export function Home() {
   return (
@@ -21,7 +22,7 @@ export function Home() {
           </em>
         }
         subline="A Family Place"
-        image={bgUrl(uploads.heroPoster)}
+        image={uploads.heroPoster}
         video={rawUrl(uploads.heroVideo)}
         padding={['9vw', '5vw']}
       >
@@ -76,10 +77,13 @@ export function Home() {
             </div>
           </div>
           <div className="max-w-[400px]">
-            <img
-              src={fullUrl(uploads.somethingUnique)}
-              alt=""
-              className=" inset-0 h-full w-full object-cover max-lg:static max-lg:h-auto"
+            <Picture
+              kind="full"
+              src={uploads.somethingUnique}
+              width={1446}
+              height={1446}
+              sizes="(min-width: 1024px) 400px, 100vw"
+              className="inset-0 h-full w-full object-cover max-lg:static max-lg:h-auto"
             />
           </div>
         </div>

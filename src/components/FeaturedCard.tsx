@@ -1,5 +1,5 @@
 import { type FeaturedItem, formatPrice, startingPrice } from '../data/menu'
-import { fullUrl } from '../lib/assets'
+import { Picture } from './Picture'
 
 /** Photo card for the home "House Specialties" grid. */
 export function FeaturedCard({ item }: { item: FeaturedItem }) {
@@ -9,7 +9,14 @@ export function FeaturedCard({ item }: { item: FeaturedItem }) {
   return (
     <article className="feature-card">
       {item.photo && (
-        <img src={fullUrl(item.photo)} alt={item.name} loading="lazy" decoding="async" />
+        <Picture
+          kind="cards"
+          src={item.photo}
+          alt={item.name}
+          width={800}
+          height={600}
+          sizes="(min-width: 1024px) 380px, (min-width: 480px) 50vw, 100vw"
+        />
       )}
       <div className="feature-body">
         <p className="feature-kicker">{item.section.title}</p>

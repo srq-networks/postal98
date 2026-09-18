@@ -2,7 +2,7 @@ import { Menu } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import { site, uploads } from '../data/site'
-import { rawUrl } from '../lib/assets'
+import { Picture } from './Picture'
 
 const links = [
   { label: 'Home', to: '/' },
@@ -46,12 +46,14 @@ export function Header() {
         }`}
       >
         <Link to="/" className="flex h-full max-w-1/2 items-center">
-          <img
-            src={rawUrl(uploads.logo)}
+          <Picture
+            kind="logo"
+            src={uploads.logo}
             alt="Postal 98 Cafe"
+            loading="eager"
             className="h-[77%] w-auto transition-all duration-400"
-            width={720}
-            height={283}
+            width={440}
+            height={173}
           />
         </Link>
 

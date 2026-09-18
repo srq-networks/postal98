@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
-import Lightbox from 'yet-another-react-lightbox'
-import 'yet-another-react-lightbox/styles.css'
-import { fullUrl, thumbUrl } from '../lib/assets'
+import { imageUrl } from '../lib/assets'
+import { Lightbox } from './Lightbox'
+import { Picture } from './Picture'
 
 type Props = {
   images: string[]
@@ -33,22 +33,21 @@ export function Gallery({ images, layout = 'stack', interactive = true, visible 
         <a
           key={key}
           className="gallery-item"
-          href={fullUrl(img)}
+          href={imageUrl('full', img, 'webp', 1600)}
           onClick={(e) => {
             e.preventDefault()
             if (interactive) setIndex(i)
           }}
         >
-          <img src={thumbUrl(img)} alt="" width={400} height={516} loading="lazy" />
+          <Picture kind="thumbs" src={img} width={400} height={516} />
           <span className="overlay" />
         </a>
       ))}
-      {interactive && (
+      {interactive && index >= 0 && (
         <Lightbox
-          open={index >= 0}
           index={index}
           close={() => setIndex(-1)}
-          slides={images.map((img) => ({ src: fullUrl(img) }))}
+          slides={images.map((img) => ({ src: imageUrl('full', img, 'webp', 1600) }))}
         />
       )}
     </div>

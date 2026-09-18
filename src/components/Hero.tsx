@@ -1,12 +1,13 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
+import { Picture } from './Picture'
 
 type Props = {
   eyebrow: string
   title: ReactNode
   subline: string
-  /** Background image URL (already processed, see src/lib/assets.ts). */
+  /** Background image upload path (rendered through the "bg" variants). */
   image: string
-  /** Optional looping background video (home page). */
+  /** Optional looping background video URL (home page). */
   video?: string
   /** Radial overlay strength at the light end (Divi: 0.5, contact page 0.26). */
   overlay?: number
@@ -16,6 +17,22 @@ type Props = {
   position?: string
   blend?: string
   children?: ReactNode
+}
+
+/** Resolves to the video URL only once the page has finished loading, so the
+ *  2.7MB hero clip never competes with the poster, fonts and scripts. */
+function useDeferredVideo(src?: string) {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setReady(true)
+      return
+    }
+    const onLoad = () => setReady(true)
+    window.addEventListener('load', onLoad)
+    return () => window.removeEventListener('load', onLoad)
+  }, [])
+  return ready ? src : undefined
 }
 
 export function Hero({
@@ -32,8 +49,8 @@ export function Hero({
   blend = 'normal',
   children,
 }: Props) {
+  const videoSrc = useDeferredVideo(video)
   const style = {
-    '--hero-img': `url(${image})`,
     '--hero-alpha': overlay,
     '--hero-pt': padding[0],
     '--hero-pb': padding[1],
@@ -45,7 +62,26 @@ export function Hero({
 
   return (
     <section className="hero" style={style}>
-      {video && <video className="hero-video" src={video} autoPlay loop muted playsInline />}
+      <Picture
+        kind="bg"
+        src={image}
+        sizes="100vw"
+        loading="eager"
+        fetchPriority="high"
+        className="bg-layer"
+      />
+      {video && (
+        <video
+          className="hero-video"
+          src={videoSrc}
+          preload="none"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      )}
+      <div className="hero-overlay" />
       <div className="row !pt-0">
         <div className="col col-4_4">
           <div className="txt hero-eyebrow">

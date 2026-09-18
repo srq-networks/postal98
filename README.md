@@ -25,11 +25,20 @@ bun run api
 
 Every image, the hero video, the Outside font and the PDFs come from the live
 site. `public/assets/` is committed, so nothing needs downloading to build. To
-refresh or add assets, edit `src/data/galleries.ts` / `src/data/site.ts` and run:
+refresh or add assets, edit `src/data/galleries.ts` / `src/data/menu.ts` /
+`src/data/site.ts` and run:
 
 ```bash
-bun run assets         # downloads originals to assets/raw/ (gitignored), processes with sharp + ffmpeg
+bun run assets         # downloads originals to assets/raw/ (gitignored), processes with sharp + cjxl + ffmpeg
 ```
+
+Each image is written at every width its kind needs (`KINDS` in
+`src/lib/assets.ts`: `thumbs`, `cards`, `full`, `bg`, `logo`) as
+`<kind>/<key>-<width>.{jxl,avif,webp,jpg}`; `<Picture>` renders them as a
+`<picture>` with JPEG XL → AVIF → WebP sources and a progressive JPEG fallback.
+sharp handles everything but JPEG XL, which needs `cjxl` on the PATH
+(`pacman -S libjxl` / `brew install jpeg-xl`). Only the local machine runs this;
+CI just builds the committed output.
 
 ## Checks
 

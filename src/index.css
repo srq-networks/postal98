@@ -8,8 +8,10 @@
 }
 
 @theme {
-  --color-brand-red: #9b000e;
-  --color-brand-red-hover: #9a000e;
+  /* --color-brand-red: #9b000e; */
+  --color-brand-red: #6a1314;
+  /* --color-brand-red-hover: #9a000e; */
+  --color-brand-red-hover: #a40000;
   --color-brand-yellow: #e0d61d;
   --color-ink: #333333;
   --color-muted: #666666;
@@ -35,9 +37,10 @@
     font-weight: 500;
     line-height: 1.7em;
     color: var(--color-muted);
-    background: #fff;
+    background: #fdfdfd;
     -webkit-font-smoothing: antialiased;
   }
+
   h1,
   h2,
   h3,
@@ -49,40 +52,52 @@
     line-height: 1em;
     font-weight: 500;
   }
+
   h1 {
     font-size: 30px;
   }
+
   h2 {
     font-size: 26px;
   }
+
   h3 {
     font-size: 22px;
   }
+
   h4 {
     font-size: 18px;
   }
+
   h5 {
     font-size: 16px;
   }
+
   h6 {
     font-size: 14px;
   }
+
   p {
     padding-bottom: 1em;
   }
+
   p:last-of-type {
     padding-bottom: 0;
   }
+
   a {
     color: var(--color-brand-yellow);
     text-decoration: none;
   }
+
   strong {
     font-weight: 700;
   }
+
   em {
     font-style: italic;
   }
+
   img {
     max-width: 100%;
     height: auto;
@@ -95,6 +110,7 @@
     padding: 54px 0;
     position: relative;
   }
+
   .row {
     width: 80%;
     max-width: 1080px;
@@ -102,15 +118,18 @@
     padding: 27px 0;
     position: relative;
   }
+
   .row::after {
     content: "";
     display: block;
     clear: both;
   }
+
   .row-full {
     width: 100%;
     max-width: 100%;
   }
+
   .col {
     float: left;
     position: relative;
@@ -118,100 +137,128 @@
     min-height: 1px;
     margin-right: 5.5%;
   }
+
   .col:last-child {
     margin-right: 0;
   }
+
   .col-4_4 {
     width: 100%;
   }
+
   .col-1_2 {
     width: 47.25%;
   }
+
   .col-1_3 {
     width: 29.6667%;
   }
+
   .col-1_4 {
     width: 20.875%;
   }
+
   /* module bottom spacing, per column width */
   .col-4_4 > .mod {
     margin-bottom: 2.75%;
   }
+
   .col-1_2 > .mod {
     margin-bottom: 5.82%;
   }
+
   .col-1_3 > .mod {
     margin-bottom: 9.27%;
   }
+
   .col-1_4 > .mod {
     margin-bottom: 13.174%;
   }
+
   .col > .mod:last-child {
     margin-bottom: 0;
   }
+
   /* Divi gutter width 2 (used by the home Specialties row) */
   .row-gutters2 > .col {
     margin-right: 3%;
   }
+
   .row-gutters2 > .col:last-child {
     margin-right: 0;
   }
+
   .row-gutters2 > .col-1_2 {
     width: 48.5%;
   }
+
   .row-gutters2 > .col-1_4 {
     width: 22.75%;
   }
+
   .row-gutters2 > .col-1_4 > .mod {
     margin-bottom: 6.594%;
   }
+
   .row-gutters2 > .col-1_2 > .mod {
     margin-bottom: 3.093%;
   }
+
   @media (max-width: 980px) {
     .section {
       padding: 50px 0;
     }
+
     .row {
       padding: 30px 0;
     }
+
     .col {
       width: 100%;
       margin-right: 0;
       margin-bottom: 30px;
     }
+
     .col:last-child {
       margin-bottom: 0;
     }
+
     .col > .mod {
       margin-bottom: 30px;
     }
+
     .col > .mod:last-child {
       margin-bottom: 0;
     }
+
     .col-empty {
       display: none;
     }
+
     /* Divi keeps quarter columns two-up on tablet (et_pb_row_4col / 1-2_1-4_1-4) */
     .row-4col {
       display: flex;
       flex-wrap: wrap;
     }
+
     .row-4col > .col-1_4,
     .row-1-2_1-4_1-4 > .col-1_4 {
       width: 47.25%;
       margin-right: 5.5%;
     }
+
     .row-4col > .col-1_4:nth-child(2n),
     .row-1-2_1-4_1-4 > .col-1_2,
     .row-1-2_1-4_1-4 > .col-1_4:nth-child(odd) {
       margin-right: 0;
     }
+
     .row-4col > .col:nth-last-child(-n + 2),
     .row-1-2_1-4_1-4 > .col:nth-last-child(-n + 2) {
       margin-bottom: 0;
     }
   }
+
   @media (max-width: 479px) {
     .row > .col,
     .row-4col > .col-1_4,
@@ -233,7 +280,7 @@
     line-height: 1.7em;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #fff;
+    color: #fdfdfd;
     background-color: var(--color-brand-red);
     border: 10px solid transparent;
     border-radius: 0;
@@ -241,10 +288,12 @@
     cursor: pointer;
     transition: all 300ms ease 0ms;
   }
+
   .btn:hover {
     background-color: var(--color-brand-red-hover);
     padding: 0.3em 2.2em 0.3em 0.7em;
   }
+
   /* Arrow sits in the extra right padding that appears on hover, so it never overlaps the label. */
   .btn-arrow {
     position: absolute;
@@ -257,16 +306,19 @@
     transform: translate(-0.5em, -50%);
     transition: all 300ms ease 0ms;
   }
+
   .btn:hover .btn-arrow {
     opacity: 1;
     transform: translate(0, -50%);
   }
+
   .btn-outline {
     --btn-arrow-size: 1em;
     --btn-arrow-color: #000;
-    border: 1px solid #fff;
+    border: 1px solid #fdfdfd;
     font-weight: 600;
   }
+
   .btn-black {
     background-color: #000;
   }
@@ -278,6 +330,7 @@
     background-position: center;
     background-size: auto;
   }
+
   .stripe-dark {
     background-image: url("/assets/raw/butcher-image-11.png");
   }
@@ -286,23 +339,28 @@
   .title-band {
     max-width: 600px;
     margin: -9px auto 0;
-    background: #fff;
+    background: #fdfdfd;
     text-align: center;
   }
+
   .title-band h1 {
     font-family: var(--font-outside);
     font-size: 80px;
   }
+
   .title-band-dark {
     background: #000;
   }
+
   .title-band-dark h1 {
-    color: #fff;
+    color: #fdfdfd;
   }
+
   @media (max-width: 767px) {
     .title-band {
       max-width: 70%;
     }
+
     .title-band h1 {
       font-size: 65px;
     }
@@ -320,6 +378,7 @@
     background-blend-mode: var(--hero-blend, normal);
     padding: var(--hero-pt, 10vw) 0 var(--hero-pb, 10vw);
   }
+
   .hero-video {
     position: absolute;
     inset: 0;
@@ -328,9 +387,11 @@
     object-fit: cover;
     z-index: 0;
   }
+
   .hero > .row {
     z-index: 1;
   }
+
   .hero-eyebrow {
     position: relative;
     z-index: 1;
@@ -343,9 +404,10 @@
     letter-spacing: 12px;
     text-transform: uppercase;
     text-align: center;
-    color: #fff;
+    color: #fdfdfd;
     text-shadow: 0.36em -0.08em 0.84em #000;
   }
+
   .hero-title {
     position: relative;
     z-index: 0;
@@ -355,16 +417,18 @@
     padding: 3vw 0 2.5vw;
     text-shadow: 0 0 0.3em rgba(0, 0, 0, 0.4);
   }
+
   .hero-title h1 {
     font-family: var(--font-outside);
     font-size: var(--hero-h1, 84px);
     letter-spacing: 3px;
     line-height: 1.5em;
-    color: #fff;
+    color: #fdfdfd;
     text-align: center;
     text-shadow: 0 0.3em 1em #000;
     padding-bottom: 10px;
   }
+
   .hero-sub {
     position: relative;
     z-index: 1;
@@ -378,37 +442,46 @@
     letter-spacing: 10px;
     text-transform: uppercase;
     text-align: center;
-    color: #fff;
+    color: #fdfdfd;
     text-shadow: 0.36em -0.08em 0.84em #000;
     transform: translateX(-13px);
   }
+
   @media (max-width: 980px) {
     .hero {
       padding: 100px 0;
     }
+
     .hero-eyebrow {
       font-size: 20px;
     }
+
     .hero-title {
       padding: 20px 0 10px;
     }
+
     .hero-title h1 {
       font-size: 45px;
     }
+
     .hero-sub {
       font-size: 14px;
     }
   }
+
   @media (max-width: 767px) {
     .hero {
       padding: 60px 0;
     }
+
     .hero-eyebrow {
       font-size: 14px;
     }
+
     .hero-title h1 {
       font-size: 35px;
     }
+
     .hero-sub {
       font-size: 12px;
     }
@@ -418,14 +491,16 @@
   .gallery-item {
     position: relative;
     display: block;
-    border: 2px solid #fff;
+    border: 2px solid #fdfdfd;
     overflow: hidden;
   }
+
   .gallery-item img {
     display: block;
     width: 100%;
     height: auto;
   }
+
   .gallery-item .overlay {
     position: absolute;
     inset: 0;
@@ -434,6 +509,7 @@
     opacity: 0;
     transition: all 0.3s;
   }
+
   .gallery-item .overlay::before {
     content: "+";
     position: absolute;
@@ -447,50 +523,62 @@
     color: var(--color-brand-yellow);
     transition: all 0.4s;
   }
+
   .gallery-item:hover .overlay {
     opacity: 1;
   }
+
   .gallery-grid4 {
     display: flex;
     flex-wrap: wrap;
     /* Divi floats the items, so the last row's bottom margin doesn't add height */
     margin-bottom: -5.5%;
   }
+
   .gallery-grid4 > * {
     width: 20.875%;
     margin-right: 5.5%;
     margin-bottom: 5.5%;
   }
+
   .gallery-grid4 > :nth-child(4n) {
     margin-right: 0;
   }
+
   @media (max-width: 980px) {
     .gallery-grid4 > * {
       width: 47.25%;
     }
+
     .gallery-grid4 > :nth-child(4n) {
       margin-right: 5.5%;
     }
+
     .gallery-grid4 > :nth-child(2n) {
       margin-right: 0;
     }
   }
+
   /* Divi keeps the bottom margin on every grid item, including the last one,
      and the floated items keep it inside the module box */
   .gallery-stack {
     display: flow-root;
   }
+
   /* Divi's grid-item bottom margin is the row gutter (3% / 5.5%) of the ROW
      width, expressed here against the column width instead */
   .gallery-stack > * {
     margin-bottom: 13.187%;
   }
+
   .col-1_3 .gallery-stack > * {
     margin-bottom: 18.54%;
   }
+
   .gallery-static {
     pointer-events: none;
   }
+
   /* Divi grid items: 3-up on tablet, 2-up on phone, 1-up under 480px */
   @media (max-width: 980px) {
     .gallery-stack,
@@ -499,21 +587,25 @@
       flex-wrap: wrap;
       margin-bottom: 0;
     }
+
     .gallery-stack > *,
     .gallery-grid4 > *,
     .col-1_3 .gallery-stack > * {
       width: 29.666%;
       margin: 0 5.5% 7.5% 0;
     }
+
     .gallery-stack > :nth-child(3n),
     .gallery-grid4 > :nth-child(3n),
     .gallery-grid4 > :nth-child(4n) {
       margin-right: 0;
     }
+
     .gallery-grid4 > :nth-child(4n):not(:nth-child(3n)) {
       margin-right: 5.5%;
     }
   }
+
   @media (max-width: 767px) {
     .gallery-stack > *,
     .gallery-grid4 > *,
@@ -521,15 +613,18 @@
       width: 47.25%;
       margin: 0 5.5% 9.5% 0;
     }
+
     .gallery-stack > :nth-child(3n),
     .gallery-grid4 > :nth-child(3n) {
       margin-right: 5.5%;
     }
+
     .gallery-stack > :nth-child(2n),
     .gallery-grid4 > :nth-child(2n) {
       margin-right: 0;
     }
   }
+
   @media (max-width: 479px) {
     .gallery-stack > *,
     .gallery-grid4 > *,
@@ -840,6 +935,7 @@
     background: var(--color-card);
     padding: 30px;
   }
+
   .testimonial::before {
     content: "";
     position: absolute;
@@ -854,6 +950,7 @@
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='%239a000e'%3E%3Cpath d='M14 8v7.5c0 4.5-2.4 7.4-6.9 8.5l-.9-1.9c2.3-.8 3.6-2.4 3.9-4.6H7V8h7zm11 0v7.5c0 4.5-2.4 7.4-6.9 8.5l-.9-1.9c2.3-.8 3.6-2.4 3.9-4.6H18V8h7z'/%3E%3C/svg%3E")
       center / 20px no-repeat;
   }
+
   .testimonial h4 {
     font-family: var(--font-open);
     font-size: 18px;
@@ -861,6 +958,7 @@
     line-height: 1em;
     color: var(--color-ink);
   }
+
   .testimonial-author {
     display: block;
     margin-top: 32px;
@@ -874,19 +972,21 @@
     padding: 16px;
     background: transparent;
     border: 0;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #fdfdfd;
     border-radius: 0;
-    color: #fff;
+    color: #fdfdfd;
     font-family: var(--font-cairo);
     font-weight: 600;
     font-size: 16px;
     line-height: 2em;
     outline: none;
   }
+
   .field::placeholder {
-    color: #fff;
+    color: #fdfdfd;
     opacity: 1;
   }
+
   /* on white (employment application) */
   .field-light {
     padding: 10px 0;
@@ -894,18 +994,23 @@
     color: var(--color-ink);
     border-bottom-color: rgba(0, 0, 0, 0.25);
   }
+
   .field-light::placeholder {
     color: #999;
   }
+
   .field-light:focus {
     border-bottom-color: var(--color-brand-red);
   }
+
   textarea.field-light {
     min-height: 90px;
   }
+
   .field-error {
     border: 1px solid red;
   }
+
   textarea.field {
     min-height: 150px;
     resize: vertical;

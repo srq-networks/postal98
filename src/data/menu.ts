@@ -433,41 +433,32 @@ export const menu: MenuCategory[] = [
   },
 ]
 
-/** Home page "House Specialties", in display order. */
-export const featuredIds = [
-  'turkey-basil-pesto-panini',
-  'daves-special',
-  'bellas-caramel-macchiato',
-  'avocado-mash',
-  'special-delivery',
-  'tanishas-toffee-frappe',
-] as const
+type FeaturedItem = MenuItem & { section: MenuSection; category: MenuCategory }
 
-export type FeaturedItem = MenuItem & { section: MenuSection; category: MenuCategory }
-
-export const allItems = (): FeaturedItem[] =>
+const allItems = (): FeaturedItem[] =>
   menu.flatMap((category) =>
     category.sections.flatMap((section) =>
       section.items.map((item) => ({ ...item, section, category })),
     ),
   )
 
+/** Home page "House Specialties", in display order. */
 export const featuredItems = (): FeaturedItem[] => {
   const byId = new Map(allItems().map((item) => [item.id, item]))
-  return featuredIds.flatMap((id) => {
+  return [
+    'turkey-basil-pesto-panini',
+    'daves-special',
+    'bellas-caramel-macchiato',
+    'avocado-mash',
+    'special-delivery',
+    'tanishas-toffee-frappe',
+  ].flatMap((id) => {
     const item = byId.get(id)
     return item ? [item] : []
   })
 }
 
 export const formatPrice = (price: number) => `$${price.toFixed(2)}`
-
-/** Lowest price of a size-priced item, or the single price. */
-export const startingPrice = (item: MenuItem): number | undefined => {
-  if (item.price !== undefined) return item.price
-  const prices = Object.values(item.sizes ?? {})
-  return prices.length ? Math.min(...prices) : undefined
-}
 
 export const allMenuPhotos = (): string[] =>
   allItems().flatMap((item) => (item.photo ? [item.photo] : []))

@@ -18,18 +18,18 @@ export function Apply() {
       />
 
       <section
-        className="section bg-white !pt-[54px] !pb-[130px]"
+        className="section bg-white pt-13.5! pb-32.5!"
         style={{
           backgroundImage: `url(${rawUrl(uploads.cornerPattern)})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'right 0px bottom 0px',
         }}
       >
-        <Stripe title="Join Our Team" className="!py-[40px] [&>.title-band]:!mt-0" />
+        <Stripe title="Join Our Team" className="py-10! [&>.title-band]:mt-0!" />
 
-        <div className="row !p-[30px] border-[4px] border-ink max-md:!p-[15px]">
+        <div className="row p-7.5! border-4 border-ink max-md:p-3.75!">
           <div className="col col-4_4">
-            <div className="txt mod mx-auto max-w-[600px] text-center font-cairo font-semibold text-[16px] leading-[1.8em]">
+            <div className="mod mx-auto max-w-150 text-center font-cairo font-semibold text-base leading-[1.8em]">
               <p>
                 Fill out the application below and we'll be in touch. Prefer paper?{' '}
                 <a

@@ -1,45 +1,5 @@
 import type { CSSProperties } from 'react'
-import { formatPrice, type MenuItem, type MenuSection, type Size } from '../data/menu'
-
-type RowProps = { item: MenuItem; sizes?: Size[] }
-
-function MenuRow({ item, sizes }: RowProps) {
-  return (
-    <li className={`menu-row ${sizes ? 'menu-row-sized' : ''}`.trim()}>
-      <span className="menu-name">{item.name}</span>
-      {sizes ? (
-        <span className="menu-prices">
-          {sizes.map((size) => {
-            const price = item.sizes?.[size]
-            return price === undefined ? (
-              <span key={size} className="menu-price menu-price-empty" aria-hidden="true">
-                —
-              </span>
-            ) : (
-              <span key={size} className="menu-price">
-                <span className="menu-price-size">{size}</span>
-                {formatPrice(price)}
-              </span>
-            )
-          })}
-        </span>
-      ) : (
-        item.price !== undefined && <span className="menu-price">{formatPrice(item.price)}</span>
-      )}
-      {item.description && <p className="menu-desc">{item.description}</p>}
-      {item.choices && (
-        <ul className="menu-chips" aria-label="Flavors">
-          {item.choices.map((c) => (
-            <li key={c} className="menu-chip">
-              {c}
-            </li>
-          ))}
-        </ul>
-      )}
-      {item.note && <p className="menu-note">{item.note}</p>}
-    </li>
-  )
-}
+import { formatPrice, type MenuSection } from '../data/menu'
 
 /** One chalkboard card per menu section: heading, serving note, size headers, item rows. */
 export function MenuCard({ section }: { section: MenuSection }) {
@@ -63,7 +23,41 @@ export function MenuCard({ section }: { section: MenuSection }) {
       )}
       <ul>
         {section.items.map((item) => (
-          <MenuRow key={item.id} item={item} sizes={sizes} />
+          <li key={item.id} className={`menu-row ${sizes ? 'menu-row-sized' : ''}`.trim()}>
+            <span className="menu-name">{item.name}</span>
+            {sizes ? (
+              <span className="menu-prices">
+                {sizes.map((size) => {
+                  const price = item.sizes?.[size]
+                  return price === undefined ? (
+                    <span key={size} className="menu-price menu-price-empty" aria-hidden="true">
+                      —
+                    </span>
+                  ) : (
+                    <span key={size} className="menu-price">
+                      <span className="menu-price-size">{size}</span>
+                      {formatPrice(price)}
+                    </span>
+                  )
+                })}
+              </span>
+            ) : (
+              item.price !== undefined && (
+                <span className="menu-price">{formatPrice(item.price)}</span>
+              )
+            )}
+            {item.description && <p className="menu-desc">{item.description}</p>}
+            {item.choices && (
+              <ul className="menu-chips" aria-label="Flavors">
+                {item.choices.map((c) => (
+                  <li key={c} className="menu-chip">
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {item.note && <p className="menu-note">{item.note}</p>}
+          </li>
         ))}
       </ul>
     </section>

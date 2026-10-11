@@ -8,13 +8,12 @@ import { Home } from './pages/Home'
 import { Menu } from './pages/Menu'
 import { OurStory } from './pages/OurStory'
 
-const BASE_TITLE = 'Postal 98 Cafe'
 const titles: Record<string, string> = {
   '/': 'Postal 98 Cafe | A Coffee / Tea / Pastries Shop in Pinecraft Sarasota, FL',
-  '/menu': `Menu | ${BASE_TITLE}`,
-  '/our-story': `Our Story | ${BASE_TITLE}`,
-  '/contact': `Contact | ${BASE_TITLE}`,
-  '/apply': `Employment Application | ${BASE_TITLE}`,
+  '/menu': `Menu | Postal 98 Cafe`,
+  '/our-story': `Our Story | Postal 98 Cafe`,
+  '/contact': `Contact | Postal 98 Cafe`,
+  '/apply': `Employment Application | Postal 98 Cafe`,
 }
 
 /** Scroll to top on route change, or to the hash target (offset for the fixed header). */
@@ -25,7 +24,7 @@ function useScrollRestoration() {
     // jump instantly when the page is opened with a hash, animate for in-page clicks
     const behavior: ScrollBehavior = firstRender.current ? 'auto' : 'smooth'
     firstRender.current = false
-    document.title = titles[pathname] ?? BASE_TITLE
+    document.title = titles[pathname] ?? 'Postal 98 Cafe'
     if (!hash) {
       window.scrollTo(0, 0)
       return
@@ -47,7 +46,7 @@ function useScrollRestoration() {
 export default function App() {
   useScrollRestoration()
   return (
-    <div className="pt-[80px] lg:pt-[110px]">
+    <div className="pt-20 lg:pt-27.5">
       <Header />
       <main>
         <Routes>

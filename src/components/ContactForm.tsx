@@ -1,23 +1,19 @@
-import { type FormEvent, useState } from 'react'
+import { type SubmitEvent, useState } from 'react'
 import { Button } from './Button'
-
-type Status = 'idle' | 'sending' | 'sent' | 'error'
-
-const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
 export function ContactForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [website, setWebsite] = useState('') // honeypot
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [errors, setErrors] = useState<string[]>([])
 
-  async function onSubmit(e: FormEvent) {
+  async function onSubmit(e: SubmitEvent) {
     e.preventDefault()
     const errs: string[] = []
     if (!name.trim()) errs.push('Name')
-    if (!emailOk(email)) errs.push('Email Address')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.push('Email Address')
     if (!message.trim()) errs.push('Message')
     setErrors(errs)
     if (errs.length) return
@@ -38,16 +34,16 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div className="txt -mt-[10px] font-cairo font-semibold text-[16px] leading-[2em] text-white">
+      <div className="mt-2.5 font-cairo font-semibold text-base leading-[2em] text-white">
         <p>Thanks for contacting us</p>
       </div>
     )
   }
 
   return (
-    <form className="-mt-[10px]" onSubmit={onSubmit} noValidate>
+    <form className="-mt-2.5" onSubmit={onSubmit} noValidate>
       {errors.length > 0 && (
-        <div className="mb-[3%] font-cairo text-[16px] text-white">
+        <div className="mb-[3%] font-cairo text-base text-white">
           <p>Please, fill in the following fields:</p>
           <ul className="list-disc pl-[1.5em]">
             {errors.map((f) => (
@@ -56,7 +52,7 @@ export function ContactForm() {
           </ul>
         </div>
       )}
-      <p className="mb-[3%] !pb-0">
+      <p className="mb-[3%] pb-0!">
         <label className="sr-only" htmlFor="contact-name">
           Name
         </label>
@@ -69,7 +65,7 @@ export function ContactForm() {
           onChange={(e) => setName(e.target.value)}
         />
       </p>
-      <p className="mb-[3%] !pb-0">
+      <p className="mb-[3%] pb-0!">
         <label className="sr-only" htmlFor="contact-email">
           Email Address
         </label>
@@ -82,7 +78,7 @@ export function ContactForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </p>
-      <p className="mb-[30px] !pb-0">
+      <p className="mb-7.5 pb-0!">
         <label className="sr-only" htmlFor="contact-message">
           Message
         </label>
@@ -94,7 +90,7 @@ export function ContactForm() {
           onChange={(e) => setMessage(e.target.value)}
         />
       </p>
-      <p className="absolute scale-[0.01]" aria-hidden="true">
+      <p className="absolute scale-1" aria-hidden="true">
         <input
           type="text"
           name="website"
@@ -107,7 +103,7 @@ export function ContactForm() {
       </p>
       <div className="text-right">
         {status === 'error' && (
-          <p className="font-cairo text-[16px] text-white">
+          <p className="font-cairo text-base text-white">
             Sorry, your message could not be sent. Please call us at 941-260-8862.
           </p>
         )}

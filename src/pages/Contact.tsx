@@ -9,14 +9,13 @@ import { Stripe } from '../components/Stripe'
 import { site, uploads } from '../data/site'
 import { rawUrl } from '../lib/assets'
 
-const h3 =
-  'font-cairo font-bold uppercase text-[18px] tracking-[4px] leading-[1.6em] max-lg:text-[16px]'
+const h3 = 'font-cairo font-bold uppercase text-lg tracking-[4px] leading-[1.6em] max-lg:text-base'
 const infoText =
-  'txt mod max-w-[600px] font-cairo font-semibold text-[16px] leading-[1.8em] [&_a]:text-brand-red'
+  'mod max-w-150 font-cairo font-semibold text-base leading-[1.8em] [&_a]:text-brand-red'
 const h4Red =
-  'font-cairo font-black uppercase text-[12px] text-brand-red tracking-[4px] leading-[1.6em]'
+  'font-cairo font-black uppercase text-xs text-brand-red tracking-[4px] leading-[1.6em]'
 const social =
-  'flex h-[32px] w-[32px] items-center justify-center bg-brand-red-hover text-brand-yellow transition-opacity hover:opacity-70'
+  'flex h-8 w-8 items-center justify-center bg-brand-red-hover text-brand-yellow transition-opacity hover:opacity-70'
 
 export function Contact() {
   return (
@@ -31,16 +30,16 @@ export function Contact() {
       />
 
       <section
-        className="section bg-white !pt-[54px] !pb-[130px]"
+        className="section bg-white pt-13.5! pb-32.5!"
         style={{
           backgroundImage: `url(${rawUrl(uploads.cornerPattern)})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'right 0px bottom 0px',
         }}
       >
-        <Stripe title="Get In Touch" className="!py-[40px] [&>.title-band]:!mt-0" />
+        <Stripe title="Get In Touch" className="py-10! [&>.title-band]:mt-0!" />
 
-        <div className="row row-4col !p-[30px] border-[4px] border-b-0 border-ink text-center max-lg:border-b-0 max-md:!p-[15px]">
+        <div className="row row-4col p-7.5! border-4 border-b-0 border-ink text-center max-lg:border-b-0 max-md:p-3.75!">
           <div className="col col-1_4">
             <div className={infoText}>
               <h3 className={h3}>Call Us</h3>
@@ -52,10 +51,10 @@ export function Contact() {
             </div>
           </div>
           <div className="col col-1_4">
-            <div className={`${infoText} !mb-0`}>
+            <div className={`${infoText} mb-0!`}>
               <h3 className={h3}>Follow Us</h3>
             </div>
-            <ul className="mod flex justify-center gap-[8px] pb-[8px]">
+            <ul className="mod flex justify-center gap-2 pb-2">
               <li>
                 <a
                   href={site.links.facebook}
@@ -100,34 +99,31 @@ export function Contact() {
           </div>
         </div>
 
-        <div
-          id="contact_section"
-          className="row !p-[30px] border-[4px] border-ink max-md:!p-[15px]"
-        >
-          <div className="col !w-1/2 !mr-0 max-lg:!w-full px-[60px] py-[100px] max-md:px-[20px] overflow-hidden [&>.mod]:relative">
+        <div id="contact_section" className="row p-7.5! border-4 border-ink max-md:p-3.75!">
+          <div className="col w-1/2! mr-0! max-lg:w-full! px-15 py-25 max-md:px-5 overflow-hidden [&>.mod]:relative">
             <Picture kind="bg" src={uploads.chalkboard} sizes="100vw" className="bg-layer" />
             <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.21)_0%,rgba(0,0,0,0)_100%)]" />
-            <div className="txt mod text-center font-cairo font-semibold text-[18px] leading-[2em] text-white/60">
+            <div className="mod text-center font-cairo font-semibold text-lg leading-[2em] text-white/60">
               <h4 className={h4Red}>
-                <span className="text-[18px]">Email Us</span>
+                <span className="text-lg">Email Us</span>
               </h4>
             </div>
             <div className="mod">
               <ContactForm />
             </div>
           </div>
-          <div className="col !w-1/2 !mr-0 max-lg:!w-full px-[60px] py-[100px] max-md:px-[20px] overflow-hidden text-center [&>.mod]:relative">
+          <div className="col w-1/2! mr-0! max-lg:w-full! px-15 py-25 max-md:px-5 overflow-hidden text-center [&>.mod]:relative">
             <Picture kind="bg" src={uploads.contactVisitBg} sizes="100vw" className="bg-layer" />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,rgba(255,255,255,0.72)_100%)]" />
-            <div className="txt mod !mb-[20px] mx-auto max-w-[600px] max-lg:max-w-[400px] font-cairo font-semibold text-[20px] leading-[1.6em]">
+            <div className="mod mb-5! mx-auto max-w-150 max-lg:max-w-100 font-cairo font-semibold text-xl leading-[1.6em]">
               <h4 className={h4Red}>
-                <span className="text-[18px]">Visit Us</span>
+                <span className="text-lg">Visit Us</span>
               </h4>
               <h1 className="font-outside text-[80px] tracking-[-1px] max-md:text-[65px]">
                 Come Say Hi
               </h1>
             </div>
-            <div className="txt mod mx-auto font-varela font-bold text-[22px]">
+            <div className="mod mx-auto font-varela font-bold text-[22px]">
               <h2 className="text-center">
                 <strong>Store Hours</strong>
               </h2>
@@ -136,7 +132,7 @@ export function Contact() {
               </h5>
               <p className="text-center" />
             </div>
-            <div className="mod !mt-[40px]">
+            <div className="mod mt-10!">
               <Button href="#info_direction" variant="black">
                 Get Directions
               </Button>

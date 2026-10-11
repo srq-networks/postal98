@@ -1,21 +1,9 @@
 export const site = {
-  name: 'Postal 98 Cafe',
   phone: '941-260-8862',
-  address: ['1240 Yoder Ave.', 'Sarasota, Florida 34239'],
-  directions:
-    'We are located right off of Bahia Vista Street, between Graber Avenue and Yoder Avenue.',
-  hours: [
-    { season: 'April -Oct .', lines: ['Mon-Thu: 7am-3pm', 'Fri & Sat: 7am-9pm'] },
-    { season: 'Nov - Dec 20 .', lines: ['Mon-Sat: 7am-9pm'] },
-    { season: 'Dec 21 - March .', lines: ['Mon-Sat: 7am-10pm'] },
-  ],
-  sundays: 'All Sundays Closed',
-  map: { lat: 27.3225998, lng: -82.5021878, zoom: 15 },
   links: {
     orderOnline: 'https://www.clover.com/online-ordering/postal-98-cafe-llc-sarasota',
     facebook: 'https://www.facebook.com/postalcafe/',
     instagram: 'https://www.instagram.com/postal98cafe/',
-    developer: 'PicturesqueDesigns.net',
   },
 } as const
 

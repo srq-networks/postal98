@@ -3,18 +3,9 @@
 // downloads the originals and writes every <kind>/<key>-<width>.<format>
 // variant that imageUrl() points at; src/components/Picture.tsx renders them.
 
-export const UPLOADS_BASE = 'https://postal98cafe.com/wp-content/uploads/'
-
 /** Encodings in <picture> source order: first supported one wins. */
 export const FORMATS = ['jxl', 'avif', 'webp', 'jpg'] as const
 export type Format = (typeof FORMATS)[number]
-
-export const MIME: Record<Format, string> = {
-  jxl: 'image/jxl',
-  avif: 'image/avif',
-  webp: 'image/webp',
-  jpg: 'image/jpeg',
-}
 
 /** Output variants per image kind. `cover` crops to width × height (or width / ratio),
  *  `inside` fits within a width × width box without enlarging. */

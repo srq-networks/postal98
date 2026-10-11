@@ -16,7 +16,7 @@ import sharp from 'sharp'
 import { homeOtherItems } from '../src/data/galleries'
 import { allMenuPhotos } from '../src/data/menu'
 import { uploads } from '../src/data/site'
-import { assetKey, FORMATS, KINDS, type Kind, UPLOADS_BASE } from '../src/lib/assets'
+import { assetKey, FORMATS, KINDS, type Kind } from '../src/lib/assets'
 
 const RAW_DIR = 'assets/raw'
 const OUT = 'public/assets'
@@ -74,7 +74,9 @@ async function download(uploadPath: string): Promise<string> {
   if (await exists(dest)) return dest
   await mkdir(join(RAW_DIR, uploadPath.slice(0, uploadPath.lastIndexOf('/'))), { recursive: true })
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(UPLOADS_BASE + uploadPath, { headers: { 'User-Agent': UA } })
+    const res = await fetch(`https://postal98cafe.com/wp-content/uploads/${uploadPath}`, {
+      headers: { 'User-Agent': UA },
+    })
     if (res.ok) {
       await Bun.write(dest, await res.arrayBuffer())
       return dest

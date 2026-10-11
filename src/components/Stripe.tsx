@@ -13,7 +13,7 @@ export function Stripe({ title, dark, className = '', children }: Props) {
   return (
     <div className={`row row-full stripe ${dark ? 'stripe-dark' : ''} ${className}`.trim()}>
       {title && (
-        <div className={`txt title-band ${dark ? 'title-band-dark' : ''}`}>
+        <div className={`title-band ${dark ? 'title-band-dark' : ''}`}>
           <h1>{title}</h1>
         </div>
       )}

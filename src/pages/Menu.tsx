@@ -6,25 +6,15 @@ import { ALL, MenuFilter } from '../components/MenuFilter'
 import { OurInfo } from '../components/OurInfo'
 import { Stripe } from '../components/Stripe'
 import { WeeklySpecials } from '../components/WeeklySpecials'
-import { type MenuItem, menu } from '../data/menu'
+import { menu } from '../data/menu'
 import { site, uploads } from '../data/site'
 import { rawUrl } from '../lib/assets'
-
-const offers = (item: MenuItem) =>
-  item.price !== undefined
-    ? { '@type': 'Offer', price: item.price.toFixed(2), priceCurrency: 'USD' }
-    : Object.entries(item.sizes ?? {}).map(([size, price]) => ({
-        '@type': 'Offer',
-        name: size,
-        price: price.toFixed(2),
-        priceCurrency: 'USD',
-      }))
 
 /** schema.org Menu so search engines can index every item and price. */
 const menuJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Menu',
-  name: `${site.name} Menu`,
+  name: 'Postal 98 Cafe Menu',
   hasMenuSection: menu.flatMap((c) =>
     c.sections.map((s) => ({
       '@type': 'MenuSection',
@@ -34,7 +24,15 @@ const menuJsonLd = JSON.stringify({
         '@type': 'MenuItem',
         name: item.name,
         description: item.description,
-        offers: offers(item),
+        offers:
+          item.price !== undefined
+            ? { '@type': 'Offer', price: item.price.toFixed(2), priceCurrency: 'USD' }
+            : Object.entries(item.sizes ?? {}).map(([size, price]) => ({
+                '@type': 'Offer',
+                name: size,
+                price: price.toFixed(2),
+                priceCurrency: 'USD',
+              })),
       })),
     })),
   ),
@@ -59,13 +57,13 @@ export function Menu() {
         blend="darken"
       />
 
-      <section className="section bg-white !pt-[5px] !pb-[52px]">
-        <Stripe title="Our Menu" className="!py-[30px] !mt-[3px]" />
+      <section className="section bg-white pt-1.25! pb-13!">
+        <Stripe title="Our Menu" className="py-7.5! mt-0.75!" />
       </section>
 
-      <section className="section chalkboard !pt-[31px] !pb-[60px] !-mt-[48px]">
-        <div className="row !w-[90%] !max-w-[1180px] !pt-[30px] !pb-0">
-          <div className="txt mx-auto mb-[28px] max-w-[640px] text-center font-cairo font-semibold text-[16px] leading-[1.8em] text-white/70">
+      <section className="section chalkboard pt-7.75! pb-15! -mt-12!">
+        <div className="row w-9/10! max-w-295! pt-7.5! pb-0!">
+          <div className="mx-auto mb-7 max-w-160 text-center font-cairo font-semibold text-base leading-[1.8em] text-white/70">
             <p>
               Freshly ground Guatemalan coffee, breakfast till noon, and paninis all day. Pick a
               category below, or order ahead for pickup.
@@ -78,20 +76,18 @@ export function Menu() {
             {category !== ALL && ` in ${shown[0]?.title}`}
           </p>
 
-          <div
-            className={`menu-columns mt-[36px] ${sections.length === 1 ? 'menu-columns-1' : ''}`}
-          >
+          <div className={`menu-columns mt-9 ${sections.length === 1 ? 'menu-columns-1' : ''}`}>
             {sections.map((s) => (
               <MenuCard key={s.id} section={s} />
             ))}
           </div>
 
-          <p className="txt mx-auto mt-[8px] max-w-[640px] text-center font-cairo font-semibold text-[14px] leading-[1.8em] text-white/55">
+          <p className="mx-auto mt-2 max-w-160 text-center font-cairo font-semibold text-sm leading-[1.8em] text-white/55">
             Milk alternatives (oat, almond, sweet foam, half & half) add $1.25 to any drink. Prices
             and availability may change; the printed menu is the final word.
           </p>
 
-          <div className="mt-[34px] flex flex-wrap justify-center gap-x-[20px] gap-y-[6px]">
+          <div className="mt-8.5 flex flex-wrap justify-center gap-x-5 gap-y-1.5">
             <Button href={site.links.orderOnline} external>
               Order Online
             </Button>

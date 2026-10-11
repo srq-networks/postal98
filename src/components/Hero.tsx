@@ -82,15 +82,15 @@ export function Hero({
         />
       )}
       <div className="hero-overlay" />
-      <div className="row !pt-0">
+      <div className="row pt-0!">
         <div className="col col-4_4">
-          <div className="txt hero-eyebrow">
+          <div className="hero-eyebrow">
             <p>{eyebrow}</p>
           </div>
-          <div className="txt hero-title">
+          <div className="hero-title">
             <h1>{title}</h1>
           </div>
-          <div className="txt hero-sub">
+          <div className="hero-sub">
             <p>{subline}</p>
           </div>
         </div>

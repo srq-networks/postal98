@@ -15,8 +15,6 @@ type Props = {
   className?: string
 }
 
-const variantClass = { default: '', outline: 'btn-outline', black: 'btn-black' }
-
 export function Button({
   children,
   href,
@@ -27,7 +25,7 @@ export function Button({
   disabled,
   className = '',
 }: Props) {
-  const cls = `btn ${variantClass[variant]} ${className}`.trim()
+  const cls = `btn ${variant === 'default' ? '' : `btn-${variant}`} ${className}`.trim()
   const content = (
     <>
       {children}

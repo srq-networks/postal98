@@ -4,13 +4,11 @@ import { FacebookIcon, InstagramIcon } from './icons'
 export function Footer() {
   return (
     <footer className="bg-footer">
-      <div className="bg-black/[0.32] pt-[15px] pb-[5px]">
-        <div className="row !py-0 flex flex-col-reverse items-center gap-[5px] lg:flex-row lg:justify-between">
-          <div className="pb-[10px] text-[14px] text-muted">
-            Developed by {site.links.developer}
-          </div>
+      <div className="bg-black/32 pt-3.75 pb-1.25">
+        <div className="row py-0! flex flex-col-reverse items-center gap-1.25 lg:flex-row lg:justify-between">
+          <div className="pb-2.5 text-sm text-muted">Developed with love by Sarasota Networks</div>
           <ul className="flex">
-            <li className="ml-[20px]">
+            <li className="ml-5">
               <a
                 href={site.links.facebook}
                 target="_blank"
@@ -21,7 +19,7 @@ export function Footer() {
                 <FacebookIcon />
               </a>
             </li>
-            <li className="ml-[20px]">
+            <li className="ml-5">
               <a
                 href={site.links.instagram}
                 target="_blank"

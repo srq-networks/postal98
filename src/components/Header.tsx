@@ -30,19 +30,17 @@ export function Header() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: close the mobile menu on navigation
   useEffect(() => setOpen(false), [pathname])
 
-  const navPad = fixed
-    ? 'lg:pt-[20px] lg:[&>ul>li>a]:pb-[20px]'
-    : 'lg:pt-[48px] lg:[&>ul>li>a]:pb-[48px]'
+  const navPad = fixed ? 'lg:pt-5 lg:[&>ul>li>a]:pb-5' : 'lg:pt-12 lg:[&>ul>li>a]:pb-12'
 
   return (
     <header
-      className={`fixed top-0 left-0 z-[99999] w-full bg-white transition-[height,box-shadow] duration-400 ${
+      className={`fixed top-0 left-0 z-99999 w-full bg-white transition-[height,box-shadow] duration-400 ${
         fixed ? 'shadow-[0_0_7px_rgba(0,0,0,0.1)]' : 'shadow-[0_1px_0_rgba(0,0,0,0.1)]'
       }`}
     >
       <div
         className={`row !py-0 flex after:hidden items-center justify-between transition-[height] duration-400 ${
-          fixed ? 'h-[80px] lg:h-[54px]' : 'h-[80px] lg:h-[110px]'
+          fixed ? 'h-20 lg:h-13.5' : 'h-20 lg:h-27.5'
         }`}
       >
         <Link to="/" className="flex h-full max-w-1/2 items-center">
@@ -58,11 +56,11 @@ export function Header() {
         </Link>
 
         <nav
-          className={`hidden lg:block font-open text-[17px] font-bold tracking-[1px] leading-[14px] ${navPad}`}
+          className={`hidden lg:block font-open text-[17px] font-bold tracking-[1px] leading-3.5 ${navPad}`}
         >
           <ul className="flex">
             {links.map((l) => (
-              <li key={l.label} className="pr-[22px] last:pr-0">
+              <li key={l.label} className="pr-5.5 last:pr-0">
                 {l.to ? (
                   <NavLink to={l.to} className={linkClass}>
                     {l.label}
@@ -94,13 +92,13 @@ export function Header() {
       </div>
 
       {open && (
-        <ul className="lg:hidden absolute left-0 w-full bg-white p-[5%] border-t-[3px] border-brand-yellow shadow-[0_2px_5px_rgba(0,0,0,0.1)]">
+        <ul className="lg:hidden absolute left-0 w-full bg-white p-[5%] border-t-3 border-brand-yellow shadow-[0_2px_5px_rgba(0,0,0,0.1)]">
           {links.map((l) => (
             <li key={l.label}>
               {l.to ? (
                 <Link
                   to={l.to}
-                  className="block border-b border-black/[0.03] px-[5%] py-[10px] text-[14px] text-muted"
+                  className="block border-b border-black/3 px-[5%] py-2.5 text-sm text-muted"
                 >
                   {l.label}
                 </Link>
@@ -109,7 +107,7 @@ export function Header() {
                   href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block border-b border-black/[0.03] px-[5%] py-[10px] text-[14px] text-muted"
+                  className="block border-b border-black/3 px-[5%] py-2.5 text-sm text-muted"
                 >
                   {l.label}
                 </a>

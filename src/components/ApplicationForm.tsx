@@ -16,11 +16,8 @@ import { Button } from './Button'
 // (see server/contact-api.mjs, APPLICATION_SECTIONS). The SSN line of the paper form
 // is deliberately not collected.
 
-type Status = 'idle' | 'sending' | 'sent' | 'error'
 type Missing = { name: string; label: string }
 type Cols = 1 | 2 | 3 | 4 | 5 | 6
-
-const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
 /** Names of the fields that failed validation, so each field can flag itself. */
 const ErrorsContext = createContext<ReadonlySet<string>>(new Set())
@@ -40,14 +37,6 @@ const yesNo = [
   { value: 'yes', label: 'Yes' },
   { value: 'no', label: 'No' },
 ]
-const sources = [
-  'Advertisement',
-  'Employment Agency',
-  'Friend',
-  'Relative',
-  'Walk-in',
-  'Other',
-].map((s) => ({ value: s, label: s }))
 const education = [
   { prefix: 'edu0', level: 'High School', credential: 'Diploma' },
   { prefix: 'edu1', level: 'College', credential: 'Degree' },
@@ -59,7 +48,7 @@ const Required = () => <span className="text-brand-red"> *</span>
 /** Section bar, like the grey bands on the paper form. */
 function Band({ children }: { children: ReactNode }) {
   return (
-    <h2 className="md:col-span-6 mt-[20px] bg-ink py-[8px] text-center font-cairo font-bold uppercase text-[15px] tracking-[3px] text-white">
+    <h2 className="md:col-span-6 mt-5 bg-ink py-2 text-center font-cairo font-bold uppercase text-[15px] tracking-[3px] text-white">
       {children}
     </h2>
   )
@@ -67,7 +56,7 @@ function Band({ children }: { children: ReactNode }) {
 
 function SubHeading({ children }: { children: ReactNode }) {
   return (
-    <h3 className="md:col-span-6 pt-[10px] pb-0 font-cairo font-black uppercase text-[12px] tracking-[4px] text-brand-red">
+    <h3 className="md:col-span-6 pt-2.5 pb-0 font-cairo font-black uppercase text-xs tracking-[4px] text-brand-red">
       {children}
     </h3>
   )
@@ -134,14 +123,14 @@ type RadiosProps = {
 function Radios({ name, label, options, cols = 3, required, onChange }: RadiosProps) {
   const errors = useContext(ErrorsContext)
   return (
-    <fieldset className={`${colSpan[cols]} ${errors.has(name) ? 'field-error p-[8px]' : ''}`}>
+    <fieldset className={`${colSpan[cols]} ${errors.has(name) ? 'field-error p-2' : ''}`}>
       <legend className={labelClass}>
         {label}
         {required && <Required />}
       </legend>
-      <div className="flex flex-wrap gap-x-[24px] gap-y-[6px] pt-[12px] font-cairo font-semibold text-[16px] text-ink">
+      <div className="flex flex-wrap gap-x-6 gap-y-1.5 pt-3 font-cairo font-semibold text-base text-ink">
         {options.map((o) => (
-          <label key={o.value} className="flex cursor-pointer items-center gap-[8px]">
+          <label key={o.value} className="flex cursor-pointer items-center gap-2">
             <input
               type="radio"
               name={name}
@@ -149,7 +138,7 @@ function Radios({ name, label, options, cols = 3, required, onChange }: RadiosPr
               required={required}
               data-label={label}
               onChange={onChange}
-              className="h-[16px] w-[16px] accent-brand-red"
+              className="h-4 w-4 accent-brand-red"
             />
             {o.label}
           </label>
@@ -229,22 +218,8 @@ function Employment({ prefix, n }: { prefix: string; n: number }) {
   )
 }
 
-/** Every `required` control that is still empty, in document order (one entry per radio group). */
-function missingFields(form: HTMLFormElement, fd: FormData): Missing[] {
-  const out: Missing[] = []
-  const seen = new Set<string>()
-  for (const el of form.elements) {
-    if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) continue
-    if (!el.required || seen.has(el.name)) continue
-    seen.add(el.name)
-    if (String(fd.get(el.name) ?? '').trim()) continue
-    out.push({ name: el.name, label: el.dataset.label ?? el.name })
-  }
-  return out
-}
-
 export function ApplicationForm() {
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [missing, setMissing] = useState<Missing[]>([])
   // answers that reveal a follow-up question
   const [source, setSource] = useState('')
@@ -257,9 +232,19 @@ export function ApplicationForm() {
     e.preventDefault()
     const form = e.currentTarget
     const fd = new FormData(form)
-    const errs = missingFields(form, fd)
+    // every `required` control that is still empty, in document order (one entry per radio group)
+    const errs: Missing[] = []
+    const seen = new Set<string>()
+    for (const el of form.elements) {
+      if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) continue
+      if (!el.required || seen.has(el.name)) continue
+      seen.add(el.name)
+      if (String(fd.get(el.name) ?? '').trim()) continue
+      errs.push({ name: el.name, label: el.dataset.label ?? el.name })
+    }
     const email = String(fd.get('email') ?? '')
-    if (email && !emailOk(email)) errs.push({ name: 'email', label: 'Email' })
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errs.push({ name: 'email', label: 'Email' })
     setMissing(errs)
     if (errs.length) {
       const first = form.elements.namedItem(errs[0].name)
@@ -288,8 +273,8 @@ export function ApplicationForm() {
 
   if (status === 'sent') {
     return (
-      <div className="txt mx-auto max-w-[600px] text-center font-cairo font-semibold text-[18px] leading-[1.8em] text-ink">
-        <h3 className="font-cairo font-bold uppercase text-[18px] tracking-[4px] leading-[1.6em]">
+      <div className="mx-auto max-w-150 text-center font-cairo font-semibold text-lg leading-[1.8em] text-ink">
+        <h3 className="font-cairo font-bold uppercase text-lg tracking-[4px] leading-[1.6em]">
           Thank you!
         </h3>
         <p>We've received your application and will be in touch soon.</p>
@@ -302,7 +287,7 @@ export function ApplicationForm() {
       <form
         onSubmit={onSubmit}
         noValidate
-        className="grid grid-cols-1 gap-x-[24px] gap-y-[18px] md:grid-cols-6"
+        className="grid grid-cols-1 gap-x-6 gap-y-4.5 md:grid-cols-6"
       >
         <Band>Applicant Information</Band>
         <Field name="last" label="Last name" cols={3} required autoComplete="family-name" />
@@ -351,7 +336,14 @@ export function ApplicationForm() {
           name="source"
           label="How did you learn about us?"
           cols={6}
-          options={sources}
+          options={[
+            'Advertisement',
+            'Employment Agency',
+            'Friend',
+            'Relative',
+            'Walk-in',
+            'Other',
+          ].map((s) => ({ value: s, label: s }))}
           onChange={(e) => setSource(e.target.value)}
         />
         {source === 'Other' && <Field name="sourceOther" label="Please specify" cols={3} />}
@@ -418,8 +410,8 @@ export function ApplicationForm() {
           </p>
         </div>
         <label
-          className={`md:col-span-6 flex cursor-pointer items-start gap-[10px] font-cairo font-semibold text-[16px] text-ink ${
-            errors.has('certify') ? 'field-error p-[8px]' : ''
+          className={`md:col-span-6 flex cursor-pointer items-start gap-2.5 font-cairo font-semibold text-base text-ink ${
+            errors.has('certify') ? 'field-error p-2' : ''
           }`}
         >
           <input
@@ -427,7 +419,7 @@ export function ApplicationForm() {
             name="certify"
             required
             data-label="Agreement to the statement above"
-            className="mt-[4px] h-[16px] w-[16px] shrink-0 accent-brand-red"
+            className="mt-1 h-4 w-4 shrink-0 accent-brand-red"
           />
           <span>
             I have read and agree to the statement above
@@ -442,7 +434,7 @@ export function ApplicationForm() {
           autoComplete="name"
         />
 
-        <p className="absolute scale-[0.01]" aria-hidden="true">
+        <p className="absolute scale-1" aria-hidden="true">
           <input
             type="text"
             name="website"
@@ -452,9 +444,9 @@ export function ApplicationForm() {
           />
         </p>
 
-        <div className="md:col-span-6 pt-[10px] text-right">
+        <div className="md:col-span-6 pt-2.5 text-right">
           {missing.length > 0 && (
-            <div className="mb-[16px] text-left font-cairo text-[15px] text-brand-red">
+            <div className="mb-4 text-left font-cairo text-[15px] text-brand-red">
               <p>Please fill in the following fields:</p>
               <ul className="list-disc pl-[1.5em]">
                 {missing.map((m) => (
@@ -464,7 +456,7 @@ export function ApplicationForm() {
             </div>
           )}
           {status === 'error' && (
-            <p className="mb-[16px] text-left font-cairo text-[15px] text-brand-red">
+            <p className="mb-4 text-left font-cairo text-[15px] text-brand-red">
               Sorry, your application could not be sent. Please call us at {site.phone} or{' '}
               <a href={pdf} target="_blank" rel="noopener noreferrer" className="underline">
                 download the PDF

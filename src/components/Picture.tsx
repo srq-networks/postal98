@@ -1,5 +1,5 @@
 import type { ImgHTMLAttributes } from 'react'
-import { FORMATS, imageUrl, KINDS, type Kind, MIME } from '../lib/assets'
+import { FORMATS, imageUrl, KINDS, type Kind } from '../lib/assets'
 
 type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'srcSet'> & {
   kind: Kind
@@ -21,7 +21,7 @@ export function Picture({ kind, src, sizes, alt = '', loading = 'lazy', ...img }
   return (
     <picture>
       {FORMATS.filter((f) => f !== 'jpg').map((f) => (
-        <source key={f} type={MIME[f]} srcSet={srcSet(f)} sizes={sizes} />
+        <source key={f} type={`image/${f}`} srcSet={srcSet(f)} sizes={sizes} />
       ))}
       <img
         src={imageUrl(kind, src, 'jpg', largest)}

@@ -52,7 +52,7 @@ export function ContactForm() {
           </ul>
         </div>
       )}
-      <p className="mb-[3%] pb-0!">
+      <p className="mb-[3%] pb-0">
         <label className="sr-only" htmlFor="contact-name">
           Name
         </label>
@@ -65,7 +65,7 @@ export function ContactForm() {
           onChange={(e) => setName(e.target.value)}
         />
       </p>
-      <p className="mb-[3%] pb-0!">
+      <p className="mb-[3%] pb-0">
         <label className="sr-only" htmlFor="contact-email">
           Email Address
         </label>
@@ -78,7 +78,7 @@ export function ContactForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </p>
-      <p className="mb-7.5 pb-0!">
+      <p className="mb-7.5 pb-0">
         <label className="sr-only" htmlFor="contact-message">
           Message
         </label>

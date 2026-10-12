@@ -39,7 +39,7 @@ export function Header() {
       }`}
     >
       <div
-        className={`row !py-0 flex after:hidden items-center justify-between transition-[height] duration-400 ${
+        className={`row flex items-center justify-between transition-[height] duration-400 ${
           fixed ? 'h-20 lg:h-13.5' : 'h-20 lg:h-27.5'
         }`}
       >

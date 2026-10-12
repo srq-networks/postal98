@@ -57,12 +57,12 @@ export function Menu() {
         blend="darken"
       />
 
-      <section className="section bg-white pt-1.25! pb-13!">
-        <Stripe title="Our Menu" className="py-7.5! mt-0.75!" />
+      <section className="relative bg-white pt-1.25 pb-13">
+        <Stripe title="Our Menu" className="mt-0.75 py-7.5" />
       </section>
 
-      <section className="section chalkboard pt-7.75! pb-15! -mt-12!">
-        <div className="row w-9/10! max-w-295! pt-7.5! pb-0!">
+      <section className="chalkboard relative -mt-12 pt-7.75 pb-15">
+        <div className="relative mx-auto w-9/10 max-w-295 pt-7.5">
           <div className="mx-auto mb-7 max-w-160 text-center font-cairo font-semibold text-base leading-[1.8em] text-white/70">
             <p>
               Freshly ground Guatemalan coffee, breakfast till noon, and paninis all day. Pick a
@@ -76,7 +76,9 @@ export function Menu() {
             {category !== ALL && ` in ${shown[0]?.title}`}
           </p>
 
-          <div className={`menu-columns mt-9 ${sections.length === 1 ? 'menu-columns-1' : ''}`}>
+          <div
+            className={`mt-9 gap-x-7 ${sections.length === 1 ? 'lg:mx-auto lg:max-w-190 lg:columns-1' : 'lg:columns-2'}`}
+          >
             {sections.map((s) => (
               <MenuCard key={s.id} section={s} />
             ))}

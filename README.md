@@ -16,7 +16,7 @@ The contact form posts to `/api/contact` and the employment application to
 (see `server/README.md`; use `DRY_RUN=1` to log instead of sending):
 
 ```bash
-cp .env.example .env   # fill in RESEND_API_KEY etc.
+cp .env.example .env   # fill in POSTMARK_SERVER_TOKEN etc.
 set -a; source .env; set +a
 bun run api
 ```
@@ -53,4 +53,4 @@ bun run build          # vite → dist/
 Pushing to `main` builds and uploads `dist/` to the cPanel document root over
 FTPS (`.github/workflows/deploy.yml`; secrets `FTP_HOST`, `FTP_USERNAME`,
 `FTP_PASSWORD`). The forms API is set up once on the server — see
-`server/README.md`. The Resend key stays on the server only.
+`server/README.md`. The Postmark token stays on the server only.

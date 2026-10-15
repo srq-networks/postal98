@@ -4,17 +4,17 @@ Two things run on the box: the static site (`dist/`, uploaded by the GitHub
 Action into the document root) and the forms API (`contact-api.mjs`, a single
 Node 18+ file with zero dependencies). It handles both the Contact page form
 (`POST /api/contact`) and the employment application (`POST /api/apply`); each
-is emailed to `CONTACT_TO_EMAIL` through Resend, with the sender's address as
+is emailed to `CONTACT_TO_EMAIL` through Postmark, with the sender's address as
 reply-to.
 
 The application email carries everything on the paper form except the Social
 Security number, which the web form does not ask for. Add it only once
-submissions can be encrypted end to end (plain email through Resend is not).
+submissions can be encrypted end to end (plain email through Postmark is not).
 
 ## 1. Forms API
 
 ```bash
-RESEND_API_KEY=re_xxx \
+POSTMARK_SERVER_TOKEN=xxxx \
 CONTACT_TO_EMAIL=owner@postal98cafe.com \
 CONTACT_FROM_EMAIL=contact@postal98cafe.com \
 node contact-api.mjs
@@ -29,7 +29,7 @@ node contact-api.mjs
    - Application URL: `postal98cafe.com` / `api` (this mounts the app at `/api`,
      so Apache sends `/api/*` to it — no proxy rules needed)
    - Application startup file: `contact-api.mjs`
-   - Environment variables: `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`
+   - Environment variables: `POSTMARK_SERVER_TOKEN`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`
 3. Start it. `https://postal98cafe.com/api/health` should return `{"ok":true}`.
 
 ### Option B — plain process + Apache proxy
@@ -61,18 +61,20 @@ citizen felony certify signature`, with `certify` = `"on"`).
 
 ### Where the secret lives
 
-The Resend key is only ever set in the environment of this process on the
+The Postmark token is only ever set in the environment of this process on the
 server (cPanel env vars or the systemd `EnvironmentFile`). It is **not** a
 GitHub secret and never enters the repo or the build — the browser only calls
 `/api/contact`. GitHub secrets are used just for the FTP deploy credentials.
 
-### Resend (one time)
+### Postmark (one time)
 
-1. Create an account at resend.com (free tier: 3,000 emails/month).
-2. Add and verify the `postal98cafe.com` domain (three DNS records) so mail can
-   come from `contact@postal98cafe.com`. Until then `onboarding@resend.dev` works
-   for testing but only delivers to the Resend account's own address.
-3. Create an API key → `RESEND_API_KEY`.
+1. Create an account at postmarkapp.com and a Server (its default "outbound"
+   transactional stream is what the API uses).
+2. Under *Sender Signatures*, add and verify the `postal98cafe.com` domain (DKIM +
+   Return-Path DNS records) so mail can come from `contact@postal98cafe.com`.
+   New accounts start in test mode and can only send to addresses on that domain
+   until Postmark approves the account.
+3. Server → *API Tokens* → copy the Server API token → `POSTMARK_SERVER_TOKEN`.
 
 ## 2. Apache
 

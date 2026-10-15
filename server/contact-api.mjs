@@ -2,15 +2,15 @@
 //
 // Zero-dependency Node (18+) HTTP server. Receives the Contact page form
 // (/api/contact) and the employment application (/api/apply) and emails them
-// to the cafe through Resend's HTTP API.
+// to the cafe through Postmark's HTTP API.
 //
 //   node server/contact-api.mjs
 //
 // Env vars:
-//   RESEND_API_KEY      required — from https://resend.com/api-keys
+//   POSTMARK_SERVER_TOKEN  required — Postmark → Servers → API Tokens
 //   CONTACT_TO_EMAIL    where messages and applications are delivered
-//   CONTACT_FROM_EMAIL  verified Resend sender (default: onboarding@resend.dev — replace
-//                       with e.g. contact@postal98cafe.com once the domain is verified)
+//   CONTACT_FROM_EMAIL  required — a Postmark sender signature or an address on a
+//                       verified domain (e.g. contact@postal98cafe.com)
 //   PORT                default 8787
 //   DRY_RUN             "1" = log the email instead of sending (for testing)
 //
@@ -20,12 +20,13 @@ import { createServer } from 'node:http'
 
 const PORT = Number(process.env.PORT || 8787)
 const TO = process.env.CONTACT_TO_EMAIL
-const FROM = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev'
+const FROM = process.env.CONTACT_FROM_EMAIL
 const DRY_RUN = process.env.DRY_RUN === '1'
 
 if (!TO) console.warn('CONTACT_TO_EMAIL is not set — submissions will fail')
-if (!process.env.RESEND_API_KEY && !DRY_RUN)
-  console.warn('RESEND_API_KEY is not set — submissions will fail')
+if (!FROM) console.warn('CONTACT_FROM_EMAIL is not set — submissions will fail')
+if (!process.env.POSTMARK_SERVER_TOKEN && !DRY_RUN)
+  console.warn('POSTMARK_SERVER_TOKEN is not set — submissions will fail')
 
 const esc = (s) =>
   String(s).replace(
@@ -72,11 +73,12 @@ function buildContactEmail({ name, email, message }) {
     <p style="${SANS};font-size:14px;line-height:1.7;white-space:pre-wrap">${esc(message.trim())}</p>
     <p style="${SANS};font-size:12px;color:#888">Reply to this email to answer them directly.</p>`
   return {
-    from: `Postal 98 Cafe Website <${FROM}>`,
-    to: [TO],
-    reply_to: email.trim(),
-    subject: `Website message from ${name.trim()}`,
-    html,
+    From: `Postal 98 Cafe Website <${FROM}>`,
+    To: TO,
+    ReplyTo: email.trim(),
+    Subject: `Website message from ${name.trim()}`,
+    HtmlBody: html,
+    MessageStream: 'outbound',
   }
 }
 
@@ -218,11 +220,12 @@ function buildApplicationEmail(app) {
       Reply to this email to contact the applicant directly.
     </p>`
   return {
-    from: `Postal 98 Cafe Website <${FROM}>`,
-    to: [TO],
-    reply_to: app.email,
-    subject: `Employment application: ${name} — ${app.position}`,
-    html,
+    From: `Postal 98 Cafe Website <${FROM}>`,
+    To: TO,
+    ReplyTo: app.email,
+    Subject: `Employment application: ${name} — ${app.position}`,
+    HtmlBody: html,
+    MessageStream: 'outbound',
   }
 }
 
@@ -238,15 +241,16 @@ async function sendEmail(payload) {
     console.log('[dry-run] would send:', JSON.stringify(payload, null, 2))
     return
   }
-  const res = await fetch('https://api.resend.com/emails', {
+  const res = await fetch('https://api.postmarkapp.com/email', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      'X-Postmark-Server-Token': process.env.POSTMARK_SERVER_TOKEN,
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   })
-  if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`)
+  if (!res.ok) throw new Error(`Postmark ${res.status}: ${await res.text()}`)
 }
 
 const json = (res, status, obj) => {

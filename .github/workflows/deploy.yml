@@ -5,7 +5,7 @@
 #   FTP_USERNAME   dedicated deploy FTP account scoped to the site's document root
 #   FTP_PASSWORD   that account's password
 #
-# The Resend key is NOT needed here: it lives only on the server, in the
+# The Postmark token is NOT needed here: it lives only on the server, in the
 # environment of the contact API process (see server/README.md). Nothing in
 # the repo or the build output ever contains it.
 #

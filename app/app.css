@@ -1,1 +1,104 @@
+/* ---------- Fonts  ---------- */
+@import "@fontsource-variable/cairo";
+@import "@fontsource/lobster";
 @import "tailwindcss";
+
+/* ---------- Tokens ---------- */
+@theme {
+  --font-sans: "Cairo Variable", Helvetica, Arial, sans-serif;
+  --font-lobster: "Lobster", Georgia, serif;
+
+  --color-brand: #6a1314;
+  --color-brand-hover: #a40000;
+  --color-accent: #e0d61d;
+  --color-paper: #fdfdfd;
+  --color-ink: #333333;
+  --color-muted: #666666;
+  --color-charcoal: #222222;
+  --color-surface: #f5f5f5;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  body {
+    @apply bg-paper text-muted antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-balance text-ink;
+  }
+
+  a {
+    @apply text-accent;
+  }
+}
+
+/* ---------- Utilities ---------- */
+
+@utility row {
+  @apply relative mx-auto w-4/5 max-w-270;
+}
+
+@utility eyebrow {
+  @apply font-bold uppercase leading-relaxed tracking-widest;
+}
+
+/* ---------- Components ---------- */
+@layer components {
+  /* Divi button: uppercase and letter-spaced; on hover the right padding grows and an
+     arrow slides into the gap. */
+  .btn {
+    @apply relative inline-flex cursor-pointer items-center border-2 border-transparent bg-brand px-[1em] py-[0.3em] text-sm font-bold uppercase leading-relaxed tracking-wide text-paper transition-all duration-300;
+
+    &::after {
+      content: "→";
+      @apply absolute right-[0.6em] -translate-x-2 opacity-0 transition-all duration-300;
+    }
+
+    &:hover {
+      @apply bg-brand-hover pr-[2.2em] pl-[0.7em];
+    }
+
+    &:hover::after {
+      @apply translate-x-0 opacity-100;
+    }
+  }
+
+  .btn-outline {
+    @apply border-paper font-semibold;
+  }
+
+  .btn-black {
+    @apply bg-black;
+  }
+
+  /* Underlined form field. Dark surface by default; `.field-light` for a white page. */
+  .field {
+    @apply block w-full border-0 border-b-2 border-paper bg-transparent p-4 font-semibold text-base leading-loose text-paper outline-none;
+
+    &::placeholder {
+      @apply text-paper;
+    }
+  }
+
+  .field-light {
+    @apply border-black/25 px-0 py-2.5 leading-relaxed text-ink;
+
+    &::placeholder {
+      @apply text-neutral-400;
+    }
+
+    &:focus {
+      @apply border-brand;
+    }
+  }
+
+  textarea.field {
+    @apply min-h-37.5 resize-y;
+  }
+}

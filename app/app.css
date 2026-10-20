@@ -8,14 +8,17 @@
   --font-sans: "Cairo Variable", Helvetica, Arial, sans-serif;
   --font-lobster: "Lobster", Georgia, serif;
 
-  --color-brand: #6a1314;
-  --color-brand-hover: #a40000;
+  --color-brand: #a40000;
+  --color-brand-hover: #6a1314;
   --color-accent: #e0d61d;
   --color-paper: #fdfdfd;
   --color-ink: #333333;
   --color-muted: #666666;
   --color-charcoal: #222222;
   --color-surface: #f5f5f5;
+
+  --spacing-hero: 85svh;
+  --tracking-hero: 0.6em;
 }
 
 /* ---------- Base ---------- */
@@ -48,20 +51,31 @@
   @apply font-bold uppercase leading-relaxed tracking-widest;
 }
 
+/* Band of diagonal hatching in the current text colour (the butcher-paper stripes). */
+@utility stripes {
+  background:
+    repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 10px) center / auto 30px
+    repeat-x;
+}
+
+@utility link {
+  @apply block py-2 text-black/60 transition-opacity hover:opacity-70 lg:py-0;
+}
+
 /* ---------- Components ---------- */
 @layer components {
   /* Divi button: uppercase and letter-spaced; on hover the right padding grows and an
      arrow slides into the gap. */
   .btn {
-    @apply relative inline-flex cursor-pointer items-center border-2 border-transparent bg-brand px-[1em] py-[0.3em] text-sm font-bold uppercase leading-relaxed tracking-wide text-paper transition-all duration-300;
+    @apply relative inline-flex cursor-pointer items-center border-2 border-transparent bg-brand px-5 py-2 text-sm font-bold uppercase leading-relaxed tracking-wide text-paper transition-all duration-300;
 
     &::after {
       content: "→";
-      @apply absolute right-[0.6em] -translate-x-2 opacity-0 transition-all duration-300;
+      @apply absolute right-3 -translate-x-2 opacity-0 transition-all duration-300;
     }
 
     &:hover {
-      @apply bg-brand-hover pr-[2.2em] pl-[0.7em];
+      @apply bg-brand-hover pr-8 pl-3;
     }
 
     &:hover::after {
@@ -71,10 +85,6 @@
 
   .btn-outline {
     @apply border-paper font-semibold;
-  }
-
-  .btn-black {
-    @apply bg-black;
   }
 
   /* Underlined form field. Dark surface by default; `.field-light` for a white page. */

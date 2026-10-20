@@ -35,7 +35,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="pt-20 lg:pt-28">
         <Outlet />
       </main>
       <Footer />

@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { site } from '../data/site'
 import { FacebookIcon, InstagramIcon } from './icons'
-import { Stripe } from './Stripe'
+import { Section } from './Section'
 
 const heading = 'eyebrow text-lg text-white'
 const social = 'block transition-opacity hover:opacity-70'
@@ -76,14 +76,13 @@ function Hours() {
 
 function Info() {
   return (
-    <section className="bg-black font-semibold text-white/70">
-      <Stripe className="bg-black py-10 text-white">Our Info</Stripe>
-      <div className="row grid gap-8 pb-10 lg:grid-cols-4">
+    <Section id="info" title="Our Info" dark>
+      <div className="grid gap-8 font-semibold lg:grid-cols-4">
         <MapEmbed />
         <Contact />
         <Hours />
       </div>
-    </section>
+    </Section>
   )
 }
 
@@ -91,7 +90,10 @@ function Credits() {
   return (
     <div className="row flex flex-col-reverse items-center gap-2 py-4 text-sm lg:flex-row lg:justify-between">
       <p>
-        &copy; {new Date().getFullYear()} {site.name} · Developed with love by Sarasota Networks
+        &copy; {new Date().getFullYear()} {site.name} · Developed with love by{' '}
+        <a href="https://sarasota-networks.com" target="_blank" rel="noreferrer">
+          Sarasota Networks
+        </a>
       </p>
       <ul className="flex gap-5">
         <li>

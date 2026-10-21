@@ -1,0 +1,13 @@
+{
+  "name": "postal98-server",
+  "private": true,
+  "description": "Serves the built site and emails the contact and application forms via Postmark.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "postmark": "^4.0.5"
+  }
+}

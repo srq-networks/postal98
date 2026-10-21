@@ -1,9 +1,10 @@
-import { Link } from 'react-router'
+import { Link, useFetcher } from 'react-router'
 import heroImage from '../assets/hero-contact.jpg?hero'
 import { Hero } from '../components/Hero'
 import { FacebookIcon, InstagramIcon } from '../components/icons'
 import { Section } from '../components/Section'
 import { site } from '../data/site'
+import { send } from '../lib/forms'
 
 export const meta = () => [
   { title: 'Contact | Postal 98 Cafe' },
@@ -67,18 +68,34 @@ function GetInTouch() {
   )
 }
 
+export const clientAction = ({ request }) => send(request, 'contact')
+
 function EmailUs() {
+  const fetcher = useFetcher()
+  const sending = fetcher.state !== 'idle'
   return (
     <div className="bg-black px-8 py-16 text-center lg:px-16">
       <p className="eyebrow text-accent">Email Us</p>
-      <form className="mt-8 space-y-6 text-left">
-        <input className="field" name="name" placeholder="Name" required />
-        <input className="field" type="email" name="email" placeholder="Email Address" required />
-        <textarea className="field" name="message" placeholder="Message" required />
-        <button type="submit" className="btn btn-outline">
-          Submit
-        </button>
-      </form>
+      {fetcher.data?.ok ? (
+        <p className="mt-8 font-semibold text-paper">
+          Thanks! We got your message and will be in touch.
+        </p>
+      ) : (
+        <fetcher.Form method="post" className="mt-8 space-y-6 text-left">
+          <input className="field" name="name" placeholder="Name" required />
+          <input className="field" type="email" name="email" placeholder="Email Address" required />
+          <textarea className="field" name="message" placeholder="Message" required />
+          <input name="website" tabIndex={-1} autoComplete="off" className="hidden" />
+          <button type="submit" className="btn btn-outline" disabled={sending}>
+            {sending ? 'Sending…' : 'Submit'}
+          </button>
+          {fetcher.data && !fetcher.data.ok && (
+            <p className="text-accent">
+              Sorry, that didn't go through. Please call us at {site.phone}.
+            </p>
+          )}
+        </fetcher.Form>
+      )}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import heroImage from '../assets/hero-menu.jpg?hero'
 import { Hero } from '../components/Hero'
 import { Section } from '../components/Section'
 import { WeeklySpecials } from '../components/WeeklySpecials'
-import { menu } from '../data/menu'
+import { formatPrice, menu } from '../data/menu'
 import { site } from '../data/site'
 
 export const meta = () => [
@@ -15,7 +15,6 @@ export const meta = () => [
 ]
 
 const SIZES = [12, 16, 20]
-const formatPrice = (price) => `$${price.toFixed(2)}`
 
 const pill =
   'cursor-pointer rounded-full border border-white/35 px-4 py-2 font-bold text-sm text-white uppercase tracking-widest transition-colors hover:border-accent hover:text-accent aria-pressed:border-brand aria-pressed:bg-brand'

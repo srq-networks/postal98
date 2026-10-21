@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["app/**", "*.config.js"]
+    "includes": ["app/**", "server/**", "*.config.js"]
   },
   "formatter": {
     "enabled": true,

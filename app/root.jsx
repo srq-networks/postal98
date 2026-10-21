@@ -11,7 +11,12 @@ import stylesheet from './app.css?url'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 
-export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
+export const links = () => [
+  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+  { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
+  { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+]
 
 export function Layout({ children }) {
   return (

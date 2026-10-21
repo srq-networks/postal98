@@ -1,6 +1,8 @@
 node_modules/
 build/
+server/public/
 .react-router/
 .env*
+!.env.example
 .idea/
 .vscode/

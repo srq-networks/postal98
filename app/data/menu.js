@@ -240,3 +240,13 @@ export const menu = [
     ],
   },
 ]
+
+export const formatPrice = (price) => `$${price.toFixed(2)}`
+
+/** The first item with this name, with its section (for the home page specialties). */
+export const findItem = (name) => {
+  for (const section of menu.flatMap((category) => category.sections)) {
+    const item = section.items.find((item) => item.name === name)
+    if (item) return { item, section }
+  }
+}

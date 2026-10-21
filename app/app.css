@@ -117,10 +117,23 @@
     &::placeholder {
       @apply text-paper;
     }
+
+    /* Red tint on every field still invalid after a submit attempt. */
+    &:user-invalid {
+      @apply border-brand bg-brand/10;
+    }
+
+    &:disabled {
+      @apply cursor-not-allowed opacity-40;
+    }
   }
 
   .field-light {
     @apply border-black/25 px-0 py-2.5 leading-relaxed text-ink;
+
+    &:disabled {
+      @apply border-neutral-300 bg-neutral-200 px-3 text-neutral-400 opacity-100;
+    }
 
     &::placeholder {
       @apply text-neutral-400;

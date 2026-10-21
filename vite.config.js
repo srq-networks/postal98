@@ -13,6 +13,8 @@ const presets = {
 }
 
 export default defineConfig({
+  /* In dev the form endpoints come from `bun run server`. */
+  server: { proxy: { '/api': 'http://localhost:3000' } },
   plugins: [
     tailwindcss(),
     reactRouter(),

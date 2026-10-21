@@ -1,11 +1,17 @@
 import { Link } from 'react-router'
 import heroImage from '../assets/hero-home.png?poster'
 import somethingUnique from '../assets/something-unique.jpg?photo'
+import avocadoMash from '../assets/specialties/avocado-mash.jpg?thumb'
+import bellasCaramelMacchiato from '../assets/specialties/bellas-caramel-macchiato.jpg?thumb'
+import davesSpecial from '../assets/specialties/daves-special.jpg?thumb'
+import specialDelivery from '../assets/specialties/special-delivery.jpg?thumb'
+import tanishasToffeeFrappe from '../assets/specialties/tanishas-toffee-frappe.jpg?thumb'
+import turkeyPestoPanini from '../assets/specialties/turkey-pesto-panini.jpg?thumb'
 import { Hero } from '../components/Hero'
 import { Picture } from '../components/Picture'
-import { Placeholder } from '../components/Placeholder'
 import { Section } from '../components/Section'
 import { WeeklySpecials } from '../components/WeeklySpecials'
+import { findItem, formatPrice } from '../data/menu'
 import { site } from '../data/site'
 
 const otherItems = import.meta.glob('../assets/other-items/*.jpg', {
@@ -85,10 +91,57 @@ function SomethingUnique() {
   )
 }
 
+/** Menu item card; name, price and description come from the menu data. */
+function Specialty({ picture, name }) {
+  const { item, section } = findItem(name)
+  const price = item.price ?? Math.min(...Object.values(item.sizes))
+  return (
+    <article className="border border-white/15 bg-white/5">
+      <Picture
+        picture={picture}
+        alt={item.name}
+        sizes="(min-width: 1024px) 30vw, 80vw"
+        className="w-full"
+      />
+      <div className="space-y-2 p-6">
+        <p className="eyebrow text-accent text-xs">{section.title}</p>
+        <div className="flex items-baseline justify-between gap-4">
+          <h3 className="font-lobster text-2xl text-white">{item.name}</h3>
+          <span className="whitespace-nowrap font-bold text-accent">
+            {item.sizes && 'from '}
+            {formatPrice(price)}
+          </span>
+        </div>
+        <p className="text-sm">{item.description}</p>
+      </div>
+    </article>
+  )
+}
+
 function Specialties() {
   return (
     <Section title="Specialties" dark>
-      <Placeholder className="min-h-120">Specialties gallery</Placeholder>
+      <div className="grid gap-8 pt-10 md:grid-cols-2 lg:grid-cols-3">
+        <Specialty picture={turkeyPestoPanini} name="Oven Roasted Turkey Basil Pesto Panini" />
+        <Specialty picture={davesSpecial} name="Dave's Special" />
+        <Specialty picture={bellasCaramelMacchiato} name="Bella's Caramel Macchiato" />
+        <Specialty picture={avocadoMash} name="Avocado Mash" />
+        <Specialty picture={specialDelivery} name="Special Delivery" />
+        <Specialty picture={tanishasToffeeFrappe} name="Tanisha's Toffee Frappe" />
+      </div>
+      <div className="mt-10 flex flex-wrap justify-center gap-6">
+        <Link to="/menu" className="btn">
+          View Full Menu
+        </Link>
+        <a
+          href={site.links.orderOnline}
+          target="_blank"
+          rel="noreferrer"
+          className="btn btn-outline"
+        >
+          Order Online
+        </a>
+      </div>
     </Section>
   )
 }

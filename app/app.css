@@ -8,7 +8,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("./assets/MaterialIcons-Regular.ttf") format("truetype");
+  src: url("./assets/MaterialIcons.ttf") format("truetype");
 }
 
 /* ---------- Tokens ---------- */
@@ -26,7 +26,9 @@
   --color-charcoal: #222222;
   --color-surface: #f5f5f5;
 
+  /* Default spaacing for heroes, value is in py */
   --spacing-hero: 4svw;
+  /* Value for only the front page */
   --spacing-splash: 9svw;
   --tracking-hero: 0.6em;
 }

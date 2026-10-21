@@ -8,14 +8,10 @@ import {
   useRouteError,
 } from 'react-router'
 import stylesheet from './app.css?url'
-import icons from './assets/MaterialIcons-Regular.ttf?url'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 
-export const links = () => [
-  { rel: 'stylesheet', href: stylesheet },
-  { rel: 'preload', href: icons, as: 'font', type: 'font/ttf', crossOrigin: 'anonymous' },
-]
+export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
 export function Layout({ children }) {
   return (

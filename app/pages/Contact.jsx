@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import heroImage from '../assets/hero-contact.jpg'
+import heroImage from '../assets/hero-contact.jpg?hero'
 import { Hero } from '../components/Hero'
 import { FacebookIcon, InstagramIcon } from '../components/icons'
 import { Section } from '../components/Section'

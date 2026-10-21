@@ -1,3 +1,5 @@
+import { Picture } from './Picture'
+
 const caps = 'relative text-shadow-lg/50 uppercase tracking-hero'
 
 export function Hero({ eyebrow, title, mustache, image, video, children, tall }) {
@@ -5,10 +7,18 @@ export function Hero({ eyebrow, title, mustache, image, video, children, tall })
     <section
       className={`relative flex items-center overflow-hidden ${tall ? 'py-splash' : 'py-hero'} text-center text-paper`}
     >
-      <img src={image} alt="" className="absolute inset-0 size-full object-cover" />
+      <Picture
+        picture={image}
+        alt=""
+        sizes="100vw"
+        loading="eager"
+        fetchPriority="high"
+        className="absolute inset-0 size-full object-cover"
+      />
       {video && (
         <video
           src={video}
+          poster={image.img.src}
           className="absolute inset-0 size-full object-cover"
           autoPlay
           loop

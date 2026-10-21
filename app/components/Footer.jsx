@@ -90,7 +90,7 @@ function Credits() {
   return (
     <div className="row flex flex-col-reverse items-center gap-2 py-4 text-sm lg:flex-row lg:justify-between">
       <p>
-        &copy; {new Date().getFullYear()} {site.name} · Developed with love by{' '}
+        &copy; {new Date().getFullYear()} {site.name} · Site made with 💛 by{' '}
         <a href="https://sarasota-networks.com" target="_blank" rel="noreferrer">
           Sarasota Networks
         </a>

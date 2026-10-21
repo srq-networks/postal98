@@ -1,4 +1,4 @@
-import heroImage from '../assets/hero-menu.jpg'
+import heroImage from '../assets/hero-menu.jpg?hero'
 import { Hero } from '../components/Hero'
 import { Placeholder } from '../components/Placeholder'
 import { Section } from '../components/Section'

@@ -1,7 +1,8 @@
-import heroImage from '../assets/hero-our-story.jpg'
-import storyPhoto from '../assets/our-story.jpg'
+import heroImage from '../assets/hero-our-story.jpg?hero'
+import storyPhoto from '../assets/our-story.jpg?photo'
 import { Hero } from '../components/Hero'
 import { Icon } from '../components/icons'
+import { Picture } from '../components/Picture'
 import { Section } from '../components/Section'
 
 export const meta = () => [
@@ -30,11 +31,10 @@ function Story() {
       <p className="eyebrow bg-paper pt-16 text-center text-brand">Est. 2020</p>
       <Section title="Our Story">
         <div className="grid items-start gap-10 pt-6 lg:grid-cols-2">
-          <img
-            src={storyPhoto}
+          <Picture
+            picture={storyPhoto}
             alt="The Postal 98 Cafe storefront in Pinecraft"
-            width={2032}
-            height={1354}
+            sizes="(min-width: 1024px) 40vw, 80vw"
             className="w-full"
           />
           <div className="space-y-6 font-semibold leading-loose">

@@ -1,7 +1,8 @@
 import { Link } from 'react-router'
-import heroImage from '../assets/hero-home.png'
-import somethingUnique from '../assets/something-unique.jpg'
+import heroImage from '../assets/hero-home.png?poster'
+import somethingUnique from '../assets/something-unique.jpg?photo'
 import { Hero } from '../components/Hero'
+import { Picture } from '../components/Picture'
 import { Placeholder } from '../components/Placeholder'
 import { Section } from '../components/Section'
 import { WeeklySpecials } from '../components/WeeklySpecials'
@@ -65,11 +66,10 @@ function SomethingUnique() {
             Visit Us
           </a>
         </div>
-        <img
-          src={somethingUnique}
+        <Picture
+          picture={somethingUnique}
           alt="Iced drinks and pastries on the counter at Postal 98 Cafe"
-          width={1446}
-          height={1446}
+          sizes="(min-width: 1024px) 32vw, 80vw"
           className="w-full lg:col-span-2"
         />
       </div>

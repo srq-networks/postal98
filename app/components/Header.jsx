@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
-import logo from '../assets/logo.jpg'
+import logo from '../assets/logo.jpg?logo'
 import { site } from '../data/site'
 import { Icon } from './icons'
+import { Picture } from './Picture'
 
 function useScrolled() {
   const [scrolled, setScrolled] = useState(false)
@@ -18,7 +19,13 @@ function useScrolled() {
 function Logo() {
   return (
     <Link to="/" className="flex h-full items-center">
-      <img src={logo} alt={site.name} width={720} height={283} className="h-3/4 w-auto" />
+      <Picture
+        picture={logo}
+        alt={site.name}
+        sizes="214px"
+        loading="eager"
+        className="h-3/4 w-auto"
+      />
     </Link>
   )
 }

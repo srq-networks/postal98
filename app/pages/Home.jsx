@@ -8,6 +8,12 @@ import { Section } from '../components/Section'
 import { WeeklySpecials } from '../components/WeeklySpecials'
 import { site } from '../data/site'
 
+const otherItems = import.meta.glob('../assets/other-items/*.jpg', {
+  eager: true,
+  import: 'default',
+  query: '?thumb',
+})
+
 export const meta = () => [
   { title: 'Postal 98 Cafe | A Coffee / Tea / Pastries Shop in Pinecraft Sarasota, FL' },
   {
@@ -23,12 +29,14 @@ function Welcome() {
       eyebrow="Welcome to"
       title={
         <>
+          {/* Highlight 98 in yellow */}
           Postal <span className="text-accent">98</span> Cafe
         </>
       }
       mustache="A Family Place"
       image={heroImage}
       video="/hero-home.mp4"
+      // Attribute makes this hero taller than default
       tall
     >
       <div className="mt-10 flex flex-wrap justify-center gap-6 lg:gap-24">
@@ -94,7 +102,17 @@ function OtherItems() {
         </p>
       </Section>
       <Section dark>
-        <Placeholder className="my-10 min-h-80">Other items gallery</Placeholder>
+        <div className="grid gap-6 py-10 sm:grid-cols-2 lg:grid-cols-4">
+          {Object.values(otherItems).map((picture) => (
+            <Picture
+              key={picture.img.src}
+              picture={picture}
+              alt=""
+              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 40vw, 80vw"
+              className="h-full border-2 border-paper object-cover"
+            />
+          ))}
+        </div>
       </Section>
     </>
   )

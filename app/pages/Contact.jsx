@@ -32,7 +32,7 @@ function ConnectWithUs() {
 function GetInTouch() {
   return (
     <Section title="Get In Touch">
-      <div className="grid gap-8 border-4 border-ink border-b-0 p-8 text-center font-semibold leading-loose md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-8 border-4 border-ink border-b-0 p-8 text-center font-semibold leading-loose md:grid-cols-2 lg:grid-cols-3">
         <div>
           <h3 className={heading}>Call Us</h3>
           <a href={`tel:${site.phone}`} className="text-brand">
@@ -51,10 +51,6 @@ function GetInTouch() {
               <InstagramIcon size={16} />
             </a>
           </div>
-        </div>
-        <div>
-          <h3 className={heading}>Email Us</h3>
-          <p>Fill out the form below to reach us</p>
         </div>
         <div>
           <h3 className={heading}>Employee Application</h3>

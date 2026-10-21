@@ -1,4 +1,4 @@
-/** Dashed box standing in for content that is not built yet (galleries, forms). */
+// DELETE THIS ONCE IT IS NO LONGER USED
 export function Placeholder({ children, className = 'min-h-60' }) {
   return (
     <div

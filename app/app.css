@@ -3,10 +3,19 @@
 @import "@fontsource/lobster";
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./assets/MaterialIcons-Regular.ttf") format("truetype");
+}
+
 /* ---------- Tokens ---------- */
 @theme {
   --font-sans: "Cairo Variable", Helvetica, Arial, sans-serif;
   --font-lobster: "Lobster", Georgia, serif;
+  --font-icons: "Material Icons";
 
   --color-brand: #a40000;
   --color-brand-hover: #6a1314;
@@ -17,7 +26,8 @@
   --color-charcoal: #222222;
   --color-surface: #f5f5f5;
 
-  --spacing-hero: 85svh;
+  --spacing-hero: 4svw;
+  --spacing-splash: 9svw;
   --tracking-hero: 0.6em;
 }
 
@@ -61,6 +71,12 @@
   background:
     repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 10px) center / auto 30px
     repeat-x;
+}
+
+/* Material Icons ligature glyph: the element's text is the icon name. */
+@utility icon {
+  @apply inline-block font-icons text-2xl leading-none normal-case not-italic antialiased;
+  font-feature-settings: "liga";
 }
 
 @utility link {

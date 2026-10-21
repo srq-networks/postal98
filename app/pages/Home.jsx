@@ -2,7 +2,9 @@ import { Link } from 'react-router'
 import heroImage from '../assets/hero-home.png'
 import somethingUnique from '../assets/something-unique.jpg'
 import { Hero } from '../components/Hero'
+import { Placeholder } from '../components/Placeholder'
 import { Section } from '../components/Section'
+import { WeeklySpecials } from '../components/WeeklySpecials'
 import { site } from '../data/site'
 
 export const meta = () => [
@@ -26,6 +28,7 @@ function Welcome() {
       mustache="A Family Place"
       image={heroImage}
       video="/hero-home.mp4"
+      tall
     >
       <div className="mt-10 flex flex-wrap justify-center gap-6 lg:gap-24">
         <Link to="/menu" className="btn">
@@ -74,11 +77,37 @@ function SomethingUnique() {
   )
 }
 
+function Specialties() {
+  return (
+    <Section title="Specialties" dark>
+      <Placeholder className="min-h-120">Specialties gallery</Placeholder>
+    </Section>
+  )
+}
+
+function OtherItems() {
+  return (
+    <>
+      <Section title="Other Items">
+        <p className="text-center font-semibold text-lg leading-loose">
+          Coffee - Desserts - Specialty Drinks - And Much More
+        </p>
+      </Section>
+      <Section dark>
+        <Placeholder className="my-10 min-h-80">Other items gallery</Placeholder>
+      </Section>
+    </>
+  )
+}
+
 export default function Home() {
   return (
     <>
       <Welcome />
       <SomethingUnique />
+      <Specialties />
+      <WeeklySpecials />
+      <OtherItems />
     </>
   )
 }

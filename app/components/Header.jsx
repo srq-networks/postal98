@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import logo from '../assets/logo.jpg'
 import { site } from '../data/site'
-import { MenuIcon } from './icons'
+import { Icon } from './icons'
 
 function useScrolled() {
   const [scrolled, setScrolled] = useState(false)
@@ -73,7 +73,7 @@ export function Header() {
           aria-expanded={open}
           onClick={() => setOpenOn(open ? null : pathname)}
         >
-          <MenuIcon size={32} />
+          <Icon name="menu" className="text-3xl" />
         </button>
       </div>
     </header>

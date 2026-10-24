@@ -66,7 +66,7 @@ function Hours() {
       </p>
       <p>
         <strong className="text-white">Employee Application Form</strong>
-        <Link to="/apply" className="block">
+        <Link to="/apply" target="_blank" rel="noreferrer noopener" className="block">
           Click Here
         </Link>
       </p>
